@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0d2260">
+<meta name="theme-color" content="#C8282A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Viareggio">
@@ -42,7 +42,7 @@
 html{height:100%;-webkit-text-size-adjust:100%;}
 body{
   font-family:'DM Sans',sans-serif;
-  background:var(--bg);
+  background:var(--rosso);
   color:var(--testo);
   height:100%;
   overflow:hidden;
@@ -62,8 +62,8 @@ body{
   width:100%;
   position:relative;
   overflow:hidden;
-  background:var(--bg);
-  box-shadow:0 0 40px rgba(0,0,0,.12);
+  background:var(--rosso);
+  box-shadow:0 0 40px rgba(0,0,0,.18);
 }
 
 /* Safe area top padding for notched phones */
@@ -498,7 +498,7 @@ body{
    RESPONSIVE — tablet e desktop centrati
 =================================================== */
 @media(min-width:480px){
-  body{background:#c8cddf;}
+  body{background:#C8282A;}
   #app{
     margin:0 auto;
     border-radius:0;
@@ -506,6 +506,190 @@ body{
     max-height:100vh;
   }
 }
+
+/* ===================================================
+   HOME BANNER — bianco/blu diagonale
+=================================================== */
+.home-banner{
+  position:relative;
+  background:#fff;
+  overflow:hidden;
+  min-height:200px;
+  flex-shrink:0;
+}
+
+/* triangolo blu top-left */
+.hb-blu-top{
+  position:absolute;
+  top:0; left:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width:180px 220px 0 0;
+  border-color:#1A3F8F transparent transparent transparent;
+}
+
+/* triangolo blu bottom-right */
+.hb-blu-bottom{
+  position:absolute;
+  bottom:0; right:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width:0 0 70px 260px;
+  border-color:transparent transparent #1A3F8F transparent;
+}
+
+.hb-content{
+  position:relative;
+  z-index:2;
+  padding:calc(var(--safe-top) + 14px) 18px 14px;
+}
+
+.hb-site{
+  font-size:12px;
+  font-weight:700;
+  color:#fff;
+  letter-spacing:.02em;
+  margin-bottom:14px;
+  text-shadow:0 1px 3px rgba(0,0,0,.25);
+}
+
+.hb-pills{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-top:14px;
+}
+.hb-pill{
+  font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  background:rgba(26,63,143,.15);color:var(--blu);
+  border:1px solid rgba(26,63,143,.2);
+}
+.hb-pill.red{
+  background:rgba(200,40,42,.1);color:var(--rosso);
+  border-color:rgba(200,40,42,.2);
+}
+
+/* ===================================================
+   LOGO SWITCHER (solo preview)
+=================================================== */
+.logo-switcher{
+  position:absolute;bottom:10px;right:12px;
+  display:flex;align-items:center;gap:4px;z-index:10;
+}
+.ls-btn{
+  width:22px;height:22px;border-radius:6px;
+  background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.4);
+  color:#fff;font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;
+}
+.ls-btn.active{background:var(--blu);border-color:var(--blu);}
+.ls-btn:hover{background:rgba(255,255,255,.5);color:var(--testo);}
+
+/* ===================================================
+   LOGO OPZIONE 1: Bold block con barre tricolore
+   VMA grande impilato, barre blu/rosso laterali
+=================================================== */
+.vma-opt{display:flex;align-items:center;gap:12px;}
+
+.vma1-wrap{
+  display:flex;align-items:center;gap:5px;
+  flex-shrink:0;
+}
+.vma1-bar{
+  width:4px;border-radius:2px;height:48px;
+}
+.vma1-bar.blu{background:var(--blu);}
+.vma1-bar.rosso{background:var(--rosso);}
+
+.vma1-letters{
+  display:flex;gap:1px;line-height:1;
+}
+.vma1-v,.vma1-m,.vma1-a{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:46px;
+  letter-spacing:-.01em;
+  line-height:1;
+}
+.vma1-v{color:var(--blu);}
+.vma1-m{color:var(--testo);}
+.vma1-a{color:var(--rosso);}
+
+.vma1-text{
+  display:flex;flex-direction:column;justify-content:center;
+}
+.vma1-viareggio{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:.12em;
+  color:var(--testo);line-height:1;
+}
+.vma1-monamour{
+  font-family:'Dancing Script',cursive;
+  font-size:17px;color:var(--rosso);
+  line-height:1.2;
+}
+
+/* ===================================================
+   LOGO OPZIONE 2: Tre bande diagonali V | M | A
+=================================================== */
+.vma2-band-wrap{
+  display:flex;height:50px;overflow:hidden;
+  border-radius:8px;flex-shrink:0;
+  clip-path:polygon(6% 0%, 100% 0%, 94% 100%, 0% 100%);
+}
+.vma2-band{
+  display:flex;align-items:center;justify-content:center;
+  flex:1;font-family:'Bebas Neue',sans-serif;
+  font-size:30px;font-weight:400;
+}
+.vma2-band.b1{background:var(--blu);color:#fff;}
+.vma2-band.b2{background:#fff;color:var(--testo);}
+.vma2-band.b3{background:var(--rosso);color:#fff;}
+
+.vma2-sub{
+  display:flex;flex-direction:column;justify-content:center;
+  margin-left:10px;
+}
+.vma2-viareggio{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:.12em;
+  color:var(--testo);line-height:1;
+}
+.vma2-monamour{
+  font-family:'Dancing Script',cursive;
+  font-size:17px;color:var(--rosso);line-height:1.2;
+}
+
+/* ===================================================
+   LOGO OPZIONE 3: Cerchio con VMA + testo affiancato
+=================================================== */
+.vma3-circle{
+  width:56px;height:56px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blu) 0%,var(--blu) 40%,#fff 40%,#fff 60%,var(--rosso) 60%);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  border:2px solid rgba(255,255,255,.6);
+}
+.vma3-letters{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;letter-spacing:.06em;
+  color:#fff;
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
+}
+.vma3-text{
+  display:flex;flex-direction:column;justify-content:center;
+  margin-left:12px;
+}
+.vma3-viareggio{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:20px;letter-spacing:.12em;
+  color:var(--testo);line-height:1;
+}
+.vma3-monamour{
+  font-family:'Dancing Script',cursive;
+  font-size:18px;color:var(--rosso);line-height:1.2;
+}
+
 </style>
 </head>
 <body>
@@ -515,22 +699,79 @@ body{
   <!-- ===================== HOME ===================== -->
   <div class="screen active" id="screen-home">
     <div class="sc">
-      <!-- HEADER CAMPAGNA -->
-      <div class="ph blu-grad safe-top">
-        <div class="logo-row">
-          <div class="logo-bubble">🌊</div>
-          <div>
-            <div class="logo-vr">VIAREGGIO</div>
-            <div class="logo-ma">mon Amour</div>
+
+      <!-- ===== BANNER HOME: bianco/blu diagonale stile immagine ===== -->
+      <div class="home-banner safe-top">
+
+        <!-- Striscia blu in alto a sinistra (triangolo) -->
+        <div class="hb-blu-top"></div>
+        <!-- Striscia blu in basso a destra -->
+        <div class="hb-blu-bottom"></div>
+
+        <!-- Contenuto del banner -->
+        <div class="hb-content">
+          <!-- sito marialina.it in alto a sinistra -->
+          <div class="hb-site">marialina.it</div>
+
+          <!-- LOGO — opzione selezionata (default: opzione 1) -->
+          <!-- Per cambiare logo: imposta display:flex su una sola opzione e display:none sulle altre -->
+
+          <!-- OPZIONE 1: Bold block — VMA impilato con barre colore -->
+          <div class="vma-opt vma-opt1" id="logo-opt1">
+            <div class="vma1-wrap">
+              <div class="vma1-bar blu"></div>
+              <div class="vma1-letters">
+                <span class="vma1-v">V</span><span class="vma1-m">M</span><span class="vma1-a">A</span>
+              </div>
+              <div class="vma1-bar rosso"></div>
+            </div>
+            <div class="vma1-text">
+              <span class="vma1-viareggio">VIAREGGIO</span>
+              <span class="vma1-monamour">mon Amour</span>
+            </div>
+          </div>
+
+          <!-- OPZIONE 2: Diagonal split — V|M|A su tre bande diagonali -->
+          <div class="vma-opt vma-opt2" id="logo-opt2" style="display:none;">
+            <div class="vma2-band-wrap">
+              <div class="vma2-band b1"><span>V</span></div>
+              <div class="vma2-band b2"><span>M</span></div>
+              <div class="vma2-band b3"><span>A</span></div>
+            </div>
+            <div class="vma2-sub">
+              <span class="vma2-viareggio">VIAREGGIO</span>
+              <span class="vma2-monamour">mon Amour</span>
+            </div>
+          </div>
+
+          <!-- OPZIONE 3: Minimal circle — VMA in cerchio con scritta intorno -->
+          <div class="vma-opt vma-opt3" id="logo-opt3" style="display:none;">
+            <div class="vma3-circle">
+              <span class="vma3-letters">VMA</span>
+            </div>
+            <div class="vma3-text">
+              <span class="vma3-viareggio">VIAREGGIO</span>
+              <span class="vma3-monamour">mon Amour</span>
+            </div>
+          </div>
+
+          <!-- Pill data voto -->
+          <div class="hb-pills">
+            <span class="hb-pill">📅 Voto: 15 Giu 2026</span>
+            <span class="hb-pill red">🔴 Campagna attiva</span>
           </div>
         </div>
-        <div style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:3px;">Elezioni Comunali 2026</div>
-        <div style="font-size:18px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:12px;">Insieme per una Viareggio<br>più giusta e moderna</div>
-        <div style="display:flex;flex-wrap:wrap;gap:7px;">
-          <span class="badge" style="background:rgba(255,255,255,.15);color:#fff;font-size:11px;padding:4px 10px;">📅 Voto: 15 Giu 2026</span>
-          <span class="badge" style="background:rgba(200,40,40,.3);color:#ffb0b0;font-size:11px;padding:4px 10px;">🔴 Campagna attiva</span>
+
+        <!-- Selettore logo (solo per preview — rimuovere in produzione) -->
+        <div class="logo-switcher">
+          <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-right:6px;">Logo:</span>
+          <button class="ls-btn active" onclick="switchLogo(1)">1</button>
+          <button class="ls-btn" onclick="switchLogo(2)">2</button>
+          <button class="ls-btn" onclick="switchLogo(3)">3</button>
         </div>
       </div>
+      <!-- fine banner -->
+
       <div class="tri"></div>
 
       <!-- QUICK ACTIONS -->
@@ -1133,6 +1374,17 @@ body{
 </div><!-- fine #app -->
 
 <script>
+// ── LOGO SWITCHER ────────────────────────────────────────
+function switchLogo(n) {
+  [1,2,3].forEach(i => {
+    const el = document.getElementById('logo-opt'+i);
+    if(el) el.style.display = (i===n) ? 'flex' : 'none';
+  });
+  document.querySelectorAll('.ls-btn').forEach((b,i) => {
+    b.classList.toggle('active', i+1===n);
+  });
+}
+
 // ── NAVIGATION ──────────────────────────────────────────
 const ALL_SCREENS = ['home','notizie','eventi','notifiche','trasparenza','servizi','profilo','admin'];
 function switchScreen(name) {
