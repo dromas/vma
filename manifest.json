@@ -2,12 +2,12 @@
   "name": "Viareggio mon Amour",
   "short_name": "Viareggio",
   "description": "App ufficiale della campagna elettorale Viareggio 2026",
-  "start_url": "/viareggio-mon-amour/",
-  "scope": "/viareggio-mon-amour/",
+  "start_url": "/vma/",
+  "scope": "/vma/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0d2260",
-  "theme_color": "#0d2260",
+  "background_color": "#C8282A",
+  "theme_color": "#C8282A",
   "lang": "it",
   "icons": [
     {

@@ -1,9 +1,9 @@
 // Service Worker — Viareggio mon Amour
 const CACHE = 'vma-v1';
 const ASSETS = [
-  '/viareggio-mon-amour/',
-  '/viareggio-mon-amour/index.html',
-  '/viareggio-mon-amour/manifest.json'
+  '/vma/',
+  '/vma/index.html',
+  '/vma/manifest.json'
 ];
 
 self.addEventListener('install', e => {
@@ -31,7 +31,7 @@ self.addEventListener('fetch', e => {
         const clone = resp.clone();
         caches.open(CACHE).then(c => c.put(e.request, clone));
         return resp;
-      }).catch(() => caches.match('/viareggio-mon-amour/index.html'));
+      }).catch(() => caches.match('/vma/index.html'));
     })
   );
 });

@@ -1350,7 +1350,7 @@ body{
     <label class="login-lbl">Password</label>
     <input class="login-input" type="password" id="login-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
     <button class="login-btn" onclick="doLogin()">Accedi al pannello →</button>
-    <div class="login-hint">Demo: admin@viareggio.it / admin123</div>
+    <div class="login-hint">Demo: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e283868f8b8ca2948b83908785858b8dcc8b96">[email&#160;protected]</a> / admin123</div>
     <div style="margin-top:18px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.45);" onclick="hideAdminLogin()">← Torna all'app</div>
   </div>
 
@@ -1373,7 +1373,7 @@ body{
 
 </div><!-- fine #app -->
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── LOGO SWITCHER ────────────────────────────────────────
 function switchLogo(n) {
   [1,2,3].forEach(i => {
@@ -1567,13 +1567,4 @@ document.addEventListener('keydown', e => {
 });
 
 // ── SERVICE WORKER (PWA) ─────────────────────────────────
-if('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(() => console.log('SW registrato'))
-      .catch(e => console.log('SW errore:', e));
-  });
-}
-</script>
-</body>
-</html>
+if('serviceWorker' in nav
