@@ -1,5 +1,5 @@
 // Service Worker — Viareggio mon Amour
-const CACHE = 'vma-v2';
+const CACHE = 'vma-v1';
 const ASSETS = [
   '/vma/',
   '/vma/index.html',
