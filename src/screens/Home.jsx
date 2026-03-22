@@ -4,12 +4,20 @@ import HomeBanner from '../components/HomeBanner'
 import DetailOverlay from '../components/DetailOverlay'
 import { useData } from '../hooks/useData'
 
+// Le stesse voci della bottom bar
+const QA = [
+  { icon: '📰', label: 'Notizie',     route: '/notizie',     cls: 'c1' },
+  { icon: '🗓️', label: 'Eventi',      route: '/eventi',      cls: 'c2' },
+  { icon: '📊', label: 'Trasparenza', route: '/trasparenza', cls: 'c3' },
+  { icon: '🚌', label: 'Servizi',     route: '/servizi',     cls: 'c4' },
+]
+
 export default function Home() {
   const nav = useNavigate()
   const { news, eventi } = useData()
   const [detail, setDetail] = useState(null)
 
-  const upcoming = eventi.filter(e => !e.past).slice(0, 2)
+  const upcoming   = eventi.filter(e => !e.past).slice(0, 2)
   const latestNews = news.slice(0, 2)
 
   return (
@@ -17,24 +25,14 @@ export default function Home() {
       <HomeBanner />
       <div className="tri" />
 
-      {/* Quick actions */}
+      {/* Quick actions — stesse voci della bottom bar */}
       <div className="qa-grid">
-        <button className="qa" onClick={() => nav('/notizie')}>
-          <div className="qa-ico c1">📰</div>
-          <span className="qa-lbl">Notizie</span>
-        </button>
-        <button className="qa" onClick={() => nav('/eventi')}>
-          <div className="qa-ico c2">🗓️</div>
-          <span className="qa-lbl">Eventi</span>
-        </button>
-        <button className="qa" onClick={() => nav('/trasparenza')}>
-          <div className="qa-ico c3">📊</div>
-          <span className="qa-lbl">Trasparenza</span>
-        </button>
-        <button className="qa" onClick={() => nav('/servizi')}>
-          <div className="qa-ico c4">🚌</div>
-          <span className="qa-lbl">Servizi</span>
-        </button>
+        {QA.map(q => (
+          <button key={q.route} className="qa" onClick={() => nav(q.route)}>
+            <div className={`qa-ico ${q.cls}`}>{q.icon}</div>
+            <span className="qa-lbl">{q.label}</span>
+          </button>
+        ))}
       </div>
 
       {/* Reminder */}
@@ -84,7 +82,6 @@ export default function Home() {
       ))}
 
       <div className="pb-safe" />
-
       {detail && <DetailOverlay item={detail} onClose={() => setDetail(null)} />}
     </div>
   )

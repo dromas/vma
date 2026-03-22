@@ -408,3 +408,126 @@ input, select, textarea { font-family: 'DM Sans', sans-serif; }
   width: 100%;
   height: 100%;
 }
+
+/* ── BURGER BUTTON ──────────────────────────────────── */
+.burger-btn {
+  position: absolute;
+  top: calc(10px + var(--safe-top));
+  right: 14px;
+  z-index: 40;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background .15s;
+  padding: 0;
+}
+.burger-btn:hover { background: rgba(255,255,255,0.28); }
+.burger-btn span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: all .2s ease;
+  transform-origin: center;
+}
+/* X quando aperto */
+.burger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.burger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── BURGER OVERLAY ─────────────────────────────────── */
+.burger-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 22, 50, 0.55);
+  z-index: 30;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: fadeIn .18s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+
+/* Panel — slide-in da destra */
+.burger-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 72%;
+  max-width: 260px;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -8px 0 32px rgba(0,0,0,.18);
+  animation: slideIn .22s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(100%) }
+  to   { transform: translateX(0) }
+}
+
+.burger-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(16px + var(--safe-top)) 18px 14px;
+  background: linear-gradient(135deg, var(--blu-dark), var(--blu));
+  flex-shrink: 0;
+}
+.burger-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .06em;
+  color: #fff;
+}
+.burger-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 15px 18px;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s;
+  position: relative;
+}
+.burger-item:last-child { border-bottom: none; }
+.burger-item:active { background: var(--bg); }
+.burger-item-icon  { font-size: 20px; flex-shrink: 0; }
+.burger-item-label { flex: 1; font-size: 15px; font-weight: 600; color: var(--testo); }
+.burger-item-arr   { font-size: 18px; color: var(--border); }
+.burger-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--rosso);
+  flex-shrink: 0;
+}
