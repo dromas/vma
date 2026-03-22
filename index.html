@@ -765,9 +765,9 @@ body{
         <!-- Selettore logo (solo per preview — rimuovere in produzione) -->
         <div class="logo-switcher">
           <span style="font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em;margin-right:6px;">Logo:</span>
-          <button class="ls-btn active" onclick="switchLogo(1)">1</button>
-          <button class="ls-btn" onclick="switchLogo(2)">2</button>
-          <button class="ls-btn" onclick="switchLogo(3)">3</button>
+          <button class="ls-btn active" id="ls-btn-1" onclick="switchLogo(1)">1</button>
+          <button class="ls-btn" id="ls-btn-2" onclick="switchLogo(2)">2</button>
+          <button class="ls-btn" id="ls-btn-3" onclick="switchLogo(3)">3</button>
         </div>
       </div>
       <!-- fine banner -->
@@ -1377,11 +1377,10 @@ body{
 // ── LOGO SWITCHER ────────────────────────────────────────
 function switchLogo(n) {
   [1,2,3].forEach(i => {
-    const el = document.getElementById('logo-opt'+i);
-    if(el) el.style.display = (i===n) ? 'flex' : 'none';
-  });
-  document.querySelectorAll('.ls-btn').forEach((b,i) => {
-    b.classList.toggle('active', i+1===n);
+    const logo = document.getElementById('logo-opt'+i);
+    const btn  = document.getElementById('ls-btn-'+i);
+    if(logo) logo.style.display = (i===n) ? 'flex' : 'none';
+    if(btn)  btn.classList.toggle('active', i===n);
   });
 }
 
