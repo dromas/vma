@@ -1,40 +1,55 @@
 export default function HomeBanner() {
   return (
+    /*
+      Proporzioni originale immagine: ~1274×530 → ratio 2.4:1
+      Usiamo un SVG unico che contiene TUTTO: sfondi, testo, pills.
+      In questo modo font-size, posizioni e proporzioni sono
+      identiche all'originale su qualsiasi schermo.
+    */
     <div className="home-banner">
-
-      {/* SVG per i triangoli diagonali — precisi come nell'immagine */}
       <svg
         className="hb-svg"
-        viewBox="0 0 400 220"
-        preserveAspectRatio="xMidYMid slice"
+        viewBox="0 0 1274 530"
+        preserveAspectRatio="xMidYMid meet"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Sfondo bianco */}
-        <rect width="400" height="220" fill="#ffffff" />
-        {/* Triangolo blu — angolo top-left, taglia in diagonale */}
-        <polygon points="0,0 400,0 400,90 0,200" fill="#1A3F8F" />
-        {/* Triangolo rosso — angolo bottom-right */}
-        <polygon points="0,220 400,130 400,220" fill="#C8282A" />
+        {/* ── SFONDI ── */}
+        <rect width="1274" height="530" fill="#ffffff" />
+        {/* Triangolo blu top-left */}
+        <polygon points="0,0 1274,0 1274,180 0,420" fill="#1A3F8F" />
+        {/* Triangolo rosso bottom-right */}
+        <polygon points="0,530 1274,310 1274,530" fill="#C8282A" />
+
+        {/* ── marialina.it ── */}
+        <text
+          x="42" y="72"
+          fontFamily="'DM Sans', Arial, sans-serif"
+          fontSize="38"
+          fontWeight="700"
+          fill="#ffffff"
+        >marialina.it</text>
+
+        {/* ── VIAREGGIO ── font black condensed simulato con scaleX */}
+        <g transform="translate(60, 190)">
+          <text
+            fontFamily="'DM Sans', Arial Black, sans-serif"
+            fontSize="260"
+            fontWeight="700"
+            fill="#0d0d0d"
+            letterSpacing="-6"
+            transform="scale(0.82, 1)"
+          >VIAREGGIO</text>
+        </g>
+
+        {/* ── mon Amour ── */}
+        <text
+          x="62" y="490"
+          fontFamily="'Dancing Script', cursive"
+          fontSize="210"
+          fontWeight="700"
+          fill="#C8282A"
+        >mon Amour</text>
       </svg>
-
-      {/* Contenuto sovrapposto */}
-      <div className="hb-content">
-        {/* marialina.it — bianco in alto a sinistra sopra il blu */}
-        <div className="hb-site">marialina.it</div>
-
-        {/* Testo centrale: VIAREGGIO + mon Amour */}
-        <div className="hb-logo-text">
-          <div className="hb-viareggio">VIAREGGIO</div>
-          <div className="hb-monamour">mon Amour</div>
-        </div>
-
-        {/* Pill info in basso */}
-        <div className="hb-pills">
-          <span className="hb-pill">📅 Voto: 15 Giu 2026</span>
-          <span className="hb-pill red">🔴 Campagna attiva</span>
-        </div>
-      </div>
-
     </div>
   )
 }
