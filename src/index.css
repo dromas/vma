@@ -396,74 +396,78 @@ input, select, textarea { font-family: 'DM Sans', sans-serif; }
 
 /* ── HOME BANNER ────────────────────────────────────── */
 .home-banner {
-  position: relative; background: #fff;
-  overflow: hidden; min-height: 190px; flex-shrink: 0;
-  padding-top: var(--safe-top);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  aspect-ratio: 400 / 220;
+  width: 100%;
 }
-.hb-tri-tl {
-  position: absolute; top: 0; left: 0; width: 0; height: 0;
-  border-style: solid; border-width: 170px 200px 0 0;
-  border-color: var(--blu) transparent transparent transparent;
+
+/* SVG triangoli — occupa tutto come sfondo */
+.hb-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-.hb-tri-br {
-  position: absolute; bottom: 0; right: 0; width: 0; height: 0;
-  border-style: solid; border-width: 0 0 65px 250px;
-  border-color: transparent transparent var(--blu) transparent;
-}
+
+/* Layer contenuto sopra SVG */
 .hb-content {
-  position: relative; z-index: 2;
-  padding: 14px 18px 14px;
+  position: absolute;
+  inset: 0;
+  padding: calc(var(--safe-top) + 10px) 16px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2;
 }
-.hb-site  { font-size: 12px; font-weight: 700; color: #fff; letter-spacing: .02em; margin-bottom: 12px; text-shadow: 0 1px 3px rgba(0,0,0,.25); }
-.hb-pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-.hb-pill  { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(26,63,143,.12); color: var(--blu); border: 1px solid rgba(26,63,143,.2); }
-.hb-pill.red { background: rgba(200,40,42,.1); color: var(--rosso); border-color: rgba(200,40,42,.2); }
 
-/* ── LOGO COMPONENTS ────────────────────────────────── */
-.vma-logo { display: flex; align-items: center; gap: 11px; }
-
-/* Opzione 1 */
-.vma1-block { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-.vma1-bar   { width: 4px; border-radius: 2px; height: 46px; flex-shrink: 0; }
-.vma1-bar.blu { background: var(--blu); }
-.vma1-bar.red { background: var(--rosso); }
-.vma1-letters { display: flex; gap: 0; line-height: 1; }
-.vma1-v { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--blu); line-height: 1; }
-.vma1-m { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--testo); line-height: 1; }
-.vma1-a { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: var(--rosso); line-height: 1; }
-.vma1-text { display: flex; flex-direction: column; justify-content: center; }
-.vma-vr { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: .12em; color: var(--testo); line-height: 1; }
-.vma-ma { font-family: 'Dancing Script', cursive; font-size: 16px; color: var(--rosso); line-height: 1.2; }
-
-/* Opzione 2 */
-.vma2-bands {
-  display: flex; height: 48px; overflow: hidden;
-  border-radius: 8px; flex-shrink: 0;
-  clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
-  width: 88px;
+/* marialina.it — bianco su blu */
+.hb-site {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .02em;
+  text-shadow: 0 1px 3px rgba(0,0,0,.25);
+  line-height: 1;
 }
-.vma2-band { display: flex; align-items: center; justify-content: center; flex: 1; font-family: 'Bebas Neue', sans-serif; font-size: 28px; }
-.vma2-band.b1 { background: var(--blu);   color: #fff; }
-.vma2-band.b2 { background: #fff;         color: var(--testo); }
-.vma2-band.b3 { background: var(--rosso); color: #fff; }
 
-/* Opzione 3 */
-.vma3-circle {
-  width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0;
-  background: linear-gradient(135deg, var(--blu) 0%, var(--blu) 38%, #fff 38%, #fff 62%, var(--rosso) 62%);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15); border: 2px solid rgba(255,255,255,.5);
+/* Blocco testo centrale */
+.hb-logo-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 2px;
 }
-.vma3-letters { font-family: 'Bebas Neue', sans-serif; font-size: 19px; letter-spacing: .06em; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.4); }
 
-/* ── LOGO SWITCHER ──────────────────────────────────── */
-.logo-switcher { position: absolute; bottom: 10px; right: 12px; display: flex; align-items: center; gap: 4px; z-index: 10; }
-.ls-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .06em; margin-right: 4px; }
-.ls-btn {
-  width: 24px; height: 24px; border-radius: 6px;
-  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35);
-  color: rgba(255,255,255,.8); font-size: 11px; font-weight: 700; cursor: pointer;
-  transition: all .15s; display: flex; align-items: center; justify-content: center;
+/* VIAREGGIO — nero ultra-bold, dimensione responsive */
+.hb-viareggio {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700;
+  font-size: clamp(34px, 10.5vw, 52px);
+  color: #0d0d0d;
+  line-height: .95;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
 }
-.ls-btn.active { background: var(--blu); border-color: var(--blu); color: #fff; }
-.ls-btn:hover  { background: rgba(255,255,255,.45); color: var(--testo); }
+
+/* mon Amour — corsivo rosso */
+.hb-monamour {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(26px, 8vw, 42px);
+  color: #C8282A;
+  line-height: 1.05;
+  margin-top: -2px;
+}
+
+/* Pills in basso */
+.hb-pills { display: flex; flex-wrap: wrap; gap: 5px; }
+.hb-pill {
+  font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+  background: rgba(26,63,143,.12); color: var(--blu); border: 1px solid rgba(26,63,143,.2);
+}
+.hb-pill.red {
+  background: rgba(200,40,42,.1); color: var(--rosso); border-color: rgba(200,40,42,.2);
+}

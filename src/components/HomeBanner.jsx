@@ -1,88 +1,40 @@
-import { useState } from 'react'
-
-function Logo1() {
-  return (
-    <div className="vma-logo">
-      <div className="vma1-block">
-        <div className="vma1-bar blu" />
-        <div className="vma1-letters">
-          <span className="vma1-v">V</span>
-          <span className="vma1-m">M</span>
-          <span className="vma1-a">A</span>
-        </div>
-        <div className="vma1-bar red" />
-      </div>
-      <div className="vma1-text">
-        <span className="vma-vr">VIAREGGIO</span>
-        <span className="vma-ma">mon Amour</span>
-      </div>
-    </div>
-  )
-}
-
-function Logo2() {
-  return (
-    <div className="vma-logo">
-      <div className="vma2-bands">
-        <div className="vma2-band b1">V</div>
-        <div className="vma2-band b2">M</div>
-        <div className="vma2-band b3">A</div>
-      </div>
-      <div className="vma1-text">
-        <span className="vma-vr">VIAREGGIO</span>
-        <span className="vma-ma">mon Amour</span>
-      </div>
-    </div>
-  )
-}
-
-function Logo3() {
-  return (
-    <div className="vma-logo">
-      <div className="vma3-circle">
-        <span className="vma3-letters">VMA</span>
-      </div>
-      <div className="vma1-text">
-        <span className="vma-vr">VIAREGGIO</span>
-        <span className="vma-ma">mon Amour</span>
-      </div>
-    </div>
-  )
-}
-
-const LOGOS = [Logo1, Logo2, Logo3]
-
 export default function HomeBanner() {
-  const [active, setActive] = useState(0)
-  const LogoComp = LOGOS[active]
-
   return (
     <div className="home-banner">
-      <div className="hb-tri-tl" />
-      <div className="hb-tri-br" />
 
+      {/* SVG per i triangoli diagonali — precisi come nell'immagine */}
+      <svg
+        className="hb-svg"
+        viewBox="0 0 400 220"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Sfondo bianco */}
+        <rect width="400" height="220" fill="#ffffff" />
+        {/* Triangolo blu — angolo top-left, taglia in diagonale */}
+        <polygon points="0,0 400,0 400,90 0,200" fill="#1A3F8F" />
+        {/* Triangolo rosso — angolo bottom-right */}
+        <polygon points="0,220 400,130 400,220" fill="#C8282A" />
+      </svg>
+
+      {/* Contenuto sovrapposto */}
       <div className="hb-content">
+        {/* marialina.it — bianco in alto a sinistra sopra il blu */}
         <div className="hb-site">marialina.it</div>
-        <LogoComp />
+
+        {/* Testo centrale: VIAREGGIO + mon Amour */}
+        <div className="hb-logo-text">
+          <div className="hb-viareggio">VIAREGGIO</div>
+          <div className="hb-monamour">mon Amour</div>
+        </div>
+
+        {/* Pill info in basso */}
         <div className="hb-pills">
           <span className="hb-pill">📅 Voto: 15 Giu 2026</span>
           <span className="hb-pill red">🔴 Campagna attiva</span>
         </div>
       </div>
 
-      {/* Selettore logo — rimuovere in produzione */}
-      <div className="logo-switcher">
-        <span className="ls-label">Logo:</span>
-        {[0,1,2].map(i => (
-          <button
-            key={i}
-            className={`ls-btn ${active === i ? 'active' : ''}`}
-            onClick={() => setActive(i)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
     </div>
   )
 }
