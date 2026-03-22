@@ -1,53 +1,72 @@
 export default function HomeBanner() {
+  /*
+    Misurato pixel per pixel da Screenshot_2026-03-22_at_15_39_39.png (684x298):
+
+    GEOMETRIA:
+    - Triangolo BLU:   (0,0) → (430,0) → (0,52)   [angolo top-left]
+    - Triangolo ROSSO: (0,298) → (684,222) → (684,298) [angolo bottom-right]
+    - Sfondo: bianco
+
+    TESTI:
+    - marialina.it: top-left nel blu, bianco
+    - VIAREGGIO: top=78, bottom=145, left=54, right=636 (h=67, w=582)
+    - mon Amour:  top=149, bottom=212, x_start≈130 (sotto VIAREGGIO, leggermente a destra)
+
+    COLORI campionati:
+    - Blu:   rgb(3, 81, 215)
+    - Rosso: rgb(226, 5, 10)
+  */
   return (
-    /*
-      Proporzioni originale immagine: ~1274×530 → ratio 2.4:1
-      Usiamo un SVG unico che contiene TUTTO: sfondi, testo, pills.
-      In questo modo font-size, posizioni e proporzioni sono
-      identiche all'originale su qualsiasi schermo.
-    */
     <div className="home-banner">
       <svg
         className="hb-svg"
-        viewBox="0 0 1274 530"
+        viewBox="0 0 684 298"
         preserveAspectRatio="xMidYMid meet"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* ── SFONDI ── */}
-        <rect width="1274" height="530" fill="#ffffff" />
-        {/* Triangolo blu top-left */}
-        <polygon points="0,0 1274,0 1274,180 0,420" fill="#1A3F8F" />
-        {/* Triangolo rosso bottom-right */}
-        <polygon points="0,530 1274,310 1274,530" fill="#C8282A" />
+        {/* Sfondo bianco */}
+        <rect width="684" height="298" fill="#ffffff" />
 
-        {/* ── marialina.it ── */}
+        {/* Triangolo BLU — angolo top-left */}
+        <polygon points="0,0 430,0 0,52" fill="#0351D7" />
+
+        {/* Triangolo ROSSO — angolo bottom-right */}
+        <polygon points="0,298 684,222 684,298" fill="#E2050A" />
+
+        {/* marialina.it — bianco, dentro il triangolo blu */}
         <text
-          x="42" y="72"
+          x="14" y="24"
           fontFamily="'DM Sans', Arial, sans-serif"
-          fontSize="38"
+          fontSize="13"
           fontWeight="700"
           fill="#ffffff"
+          letterSpacing="0.3"
         >marialina.it</text>
 
-        {/* ── VIAREGGIO ── font black condensed simulato con scaleX */}
-        <g transform="translate(60, 190)">
-          <text
-            fontFamily="'DM Sans', Arial Black, sans-serif"
-            fontSize="260"
-            fontWeight="700"
-            fill="#0d0d0d"
-            letterSpacing="-6"
-            transform="scale(0.82, 1)"
-          >VIAREGGIO</text>
-        </g>
-
-        {/* ── mon Amour ── */}
+        {/* VIAREGGIO
+            Misurato: top=78 bottom=145 left=54 right=636
+            baseline SVG = bottom = 145
+            fontSize calibrato: altezza glifo 67px → fontSize≈90 */}
         <text
-          x="62" y="490"
-          fontFamily="'Dancing Script', cursive"
-          fontSize="210"
+          x="54"
+          y="145"
+          fontFamily="'DM Sans', Arial Black, sans-serif"
+          fontSize="90"
           fontWeight="700"
-          fill="#C8282A"
+          fill="#0a0a0a"
+          letterSpacing="-1"
+        >VIAREGGIO</text>
+
+        {/* mon Amour
+            Misurato: top=149 bottom=212 x_start≈130
+            baseline = 212, fontSize calibrato per altezza 63px → fontSize≈120 */}
+        <text
+          x="130"
+          y="212"
+          fontFamily="'Dancing Script', cursive"
+          fontSize="120"
+          fontWeight="700"
+          fill="#E2050A"
         >mon Amour</text>
       </svg>
     </div>

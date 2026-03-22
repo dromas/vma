@@ -397,8 +397,8 @@ input, select, textarea { font-family: 'DM Sans', sans-serif; }
 /* ── HOME BANNER ────────────────────────────────────── */
 .home-banner {
   width: 100%;
-  /* Proporzioni originale: 1274×530 ≈ 2.4:1 */
-  aspect-ratio: 1274 / 530;
+  /* Proporzioni reali immagine originale: 1226x638 */
+  aspect-ratio: 684 / 298;
   flex-shrink: 0;
   display: block;
   overflow: hidden;
