@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d2260">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Viareggio">
+<meta name="description" content="Viareggio mon Amour — App ufficiale della campagna elettorale 2026">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Viareggio mon Amour</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===================================================
+   RESET & ROOT
+=================================================== */
+:root {
+  --blu: #1A3F8F;
+  --blu-dark: #0d2260;
+  --blu-light: #dce8ff;
+  --rosso: #C8282A;
+  --rosso-light: #fde0e0;
+  --verde: #1b7a4e;
+  --verde-light: #d4f5e5;
+  --amber: #b86800;
+  --amber-light: #fff0cc;
+  --bg: #F2F4F8;
+  --white: #FFFFFF;
+  --border: #E4E8F0;
+  --testo: #14172b;
+  --testo-2: #4a5270;
+  --testo-3: #8891b0;
+  --r: 14px;
+  --r-sm: 10px;
+  --shadow: 0 2px 14px rgba(26,63,143,.09);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{height:100%;-webkit-text-size-adjust:100%;}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--testo);
+  height:100%;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ===================================================
+   LAYOUT SHELL
+=================================================== */
+#app{
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  max-width:480px;
+  margin:0 auto;
+  width:100%;
+  position:relative;
+  overflow:hidden;
+  background:var(--bg);
+  box-shadow:0 0 40px rgba(0,0,0,.12);
+}
+
+/* Safe area top padding for notched phones */
+.safe-top{padding-top:var(--safe-top);}
+
+/* ===================================================
+   SCREENS
+=================================================== */
+.screen{
+  display:none;
+  flex-direction:column;
+  flex:1;
+  overflow:hidden;
+  animation:fadeUp .2s ease;
+}
+.screen.active{display:flex;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Admin screen variant */
+.admin-screen{display:none;flex-direction:column;flex:1;overflow:hidden;}
+.admin-screen.active{display:flex;animation:fadeUp .2s ease;}
+
+/* Scrollable body */
+.sc{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.sc::-webkit-scrollbar{display:none;}
+
+/* ===================================================
+   TRICOLOR BAR
+=================================================== */
+.tri{
+  height:3px;flex-shrink:0;
+  background:linear-gradient(to right,var(--blu) 33.3%,#fff 33.3%,#fff 66.6%,var(--rosso) 66.6%);
+}
+
+/* ===================================================
+   PAGE HEADERS
+=================================================== */
+.ph{padding:16px 18px 20px;position:relative;overflow:hidden;flex-shrink:0;}
+.ph.blu-grad{background:linear-gradient(150deg,var(--blu-dark) 0%,var(--blu) 55%,#2456c0 100%);}
+.ph.rosso-grad{background:linear-gradient(150deg,#8c1010 0%,var(--rosso) 60%,#e04040 100%);}
+.ph.verde-grad{background:linear-gradient(150deg,#0a4a2e 0%,#1b7a4e 60%,#27a96c 100%);}
+.ph.amber-grad{background:linear-gradient(150deg,#6b3a00 0%,#c07010 60%,#e09020 100%);}
+.ph::after{content:'';position:absolute;bottom:-40px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,.05);border-radius:50%;}
+.ph-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:#fff;line-height:1;}
+.ph-sub{font-size:13px;color:rgba(255,255,255,.72);margin-top:2px;}
+.ph-icon{position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:32px;opacity:.75;}
+
+/* ===================================================
+   LOGO
+=================================================== */
+.logo-row{display:flex;align-items:center;gap:11px;margin-bottom:16px;}
+.logo-bubble{width:44px;height:44px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 12px rgba(0,0,0,.2);flex-shrink:0;}
+.logo-vr{font-family:'Bebas Neue',sans-serif;font-size:20px;color:#fff;letter-spacing:.06em;line-height:1;}
+.logo-ma{font-family:'Dancing Script',cursive;font-size:15px;color:#ff9090;line-height:1.1;}
+
+/* ===================================================
+   BOTTOM NAV
+=================================================== */
+.bnav{
+  background:var(--white);
+  border-top:1px solid var(--border);
+  padding:6px 0;
+  padding-bottom:calc(6px + var(--safe-bottom));
+  display:flex;justify-content:space-around;
+  flex-shrink:0;
+  position:relative;
+  z-index:10;
+}
+.ni{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  cursor:pointer;padding:5px 12px;border-radius:10px;
+  transition:background .15s;min-width:56px;
+  -webkit-user-select:none;user-select:none;
+}
+.ni:active{background:var(--bg);}
+.ni.active .nicon{color:var(--blu);}
+.ni.active .nlabel{color:var(--blu);font-weight:700;}
+.nicon{font-size:22px;color:var(--testo-3);line-height:1;}
+.nlabel{font-size:10px;color:var(--testo-3);font-weight:500;line-height:1;}
+.notif-dot{
+  position:absolute;top:0;right:0;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--rosso);border:1.5px solid var(--white);
+}
+.ni-wrap{position:relative;display:inline-flex;}
+
+/* ===================================================
+   SECTION TITLE
+=================================================== */
+.stitle{
+  font-size:15px;font-weight:700;color:var(--testo);
+  padding:16px 16px 8px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.stitle a{font-size:12px;font-weight:500;color:var(--blu);cursor:pointer;text-decoration:none;}
+
+/* ===================================================
+   CARDS
+=================================================== */
+.card{
+  background:var(--white);border-radius:var(--r);
+  box-shadow:var(--shadow);margin:0 14px 10px;
+  overflow:hidden;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+  -webkit-user-select:none;user-select:none;
+}
+.card:active{transform:scale(.98);box-shadow:none;}
+.card-body{padding:13px 14px;}
+.card-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blu);margin-bottom:4px;}
+.card-tag.rosso{color:var(--rosso);}
+.card-tag.verde{color:var(--verde);}
+.card-tag.amber{color:var(--amber);}
+.card-title{font-size:14px;font-weight:700;color:var(--testo);line-height:1.35;margin-bottom:3px;}
+.card-desc{font-size:12px;color:var(--testo-2);line-height:1.5;}
+.card-meta{font-size:11px;color:var(--testo-3);margin-top:5px;}
+
+/* ===================================================
+   EVENT CARDS
+=================================================== */
+.ecard{
+  display:flex;gap:12px;align-items:flex-start;
+  background:var(--white);border-radius:var(--r);
+  box-shadow:var(--shadow);margin:0 14px 10px;padding:13px;
+  cursor:pointer;transition:transform .15s;
+}
+.ecard:active{transform:scale(.98);}
+.ebox{
+  min-width:46px;height:50px;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;flex-shrink:0;
+}
+.ebox.blu{background:var(--blu);}
+.ebox.rosso{background:var(--rosso);}
+.ebox.gray{background:var(--testo-3);}
+.eday{font-size:19px;font-weight:700;line-height:1;}
+.emon{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+.einfo{flex:1;min-width:0;}
+.etitle{font-size:13px;font-weight:600;color:var(--testo);line-height:1.3;margin-bottom:2px;}
+.emeta{font-size:11px;color:var(--testo-3);}
+.earrow{color:var(--border);font-size:18px;align-self:center;flex-shrink:0;}
+
+/* ===================================================
+   BADGES / PILLS
+=================================================== */
+.badge{
+  display:inline-block;font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:20px;
+}
+.badge.blu{background:var(--blu-light);color:var(--blu);}
+.badge.rosso{background:var(--rosso-light);color:var(--rosso);}
+.badge.verde{background:var(--verde-light);color:var(--verde);}
+.badge.amber{background:var(--amber-light);color:var(--amber);}
+.badge.gray{background:var(--bg);color:var(--testo-3);border:1px solid var(--border);}
+
+/* ===================================================
+   INFO BOXES
+=================================================== */
+.infobox{
+  margin:0 14px 10px;border-radius:var(--r-sm);
+  padding:11px 13px;display:flex;gap:10px;align-items:flex-start;
+}
+.infobox.warn{background:var(--amber-light);border-left:3px solid #e09020;}
+.infobox.info{background:var(--blu-light);border-left:3px solid var(--blu);}
+.infobox.ok{background:var(--verde-light);border-left:3px solid #27a96c;}
+.infobox-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.infobox-lbl{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;margin-bottom:2px;}
+.infobox-lbl.amber{color:var(--amber);}
+.infobox-lbl.blu{color:var(--blu);}
+.infobox-lbl.verde{color:var(--verde);}
+.infobox-text{font-size:12px;color:var(--testo);line-height:1.5;}
+
+/* ===================================================
+   QA GRID
+=================================================== */
+.qa-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:8px;padding:14px 14px 4px;
+}
+.qa{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;}
+.qa-ico{
+  width:54px;height:54px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;transition:transform .1s;
+}
+.qa:active .qa-ico{transform:scale(.93);}
+.qa-ico.c1{background:var(--blu-light);}
+.qa-ico.c2{background:var(--rosso-light);}
+.qa-ico.c3{background:var(--verde-light);}
+.qa-ico.c4{background:var(--amber-light);}
+.qa-lbl{font-size:11px;color:var(--testo-2);font-weight:500;text-align:center;line-height:1.2;}
+
+/* ===================================================
+   HORIZONTAL SCROLL ROW
+=================================================== */
+.hrow{
+  display:flex;gap:10px;overflow-x:auto;
+  padding:0 14px 8px;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.hrow::-webkit-scrollbar{display:none;}
+
+/* ===================================================
+   SERVICE TABLES
+=================================================== */
+.srv-section{margin:0 14px 10px;background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+.srv-head{background:var(--bg);padding:9px 13px;display:flex;align-items:center;gap:7px;}
+.srv-head .ico{font-size:17px;}
+.srv-head .lbl{font-size:13px;font-weight:700;color:var(--testo);}
+.srv-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 13px;border-bottom:1px solid var(--border);
+}
+.srv-row:last-child{border:none;}
+.srv-name{font-size:12px;color:var(--testo);flex:1;padding-right:8px;}
+.srv-val{font-size:12px;font-weight:600;color:var(--testo-2);text-align:right;white-space:nowrap;}
+.srv-val.blu{color:var(--blu);}
+.srv-val.verde{color:var(--verde);}
+
+/* ===================================================
+   TRASPARENZA
+=================================================== */
+.tcard{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:0 14px 10px;overflow:hidden;}
+.tcard-head{display:flex;justify-content:space-between;align-items:center;padding:13px 14px;border-bottom:1px solid var(--border);}
+.tcard-title{font-size:13px;font-weight:700;color:var(--testo);}
+.tcard-body{padding:10px 14px;}
+.p-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);}
+.p-row:last-child{border:none;}
+.p-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.p-dot.done{background:#27a96c;}
+.p-dot.progress{background:#4a9eda;}
+.p-dot.pending{background:#e09020;}
+.p-text{font-size:12px;color:var(--testo);flex:1;line-height:1.35;}
+.p-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.p-badge.done{background:var(--verde-light);color:var(--verde);}
+.p-badge.progress{background:var(--blu-light);color:var(--blu);}
+.p-badge.pending{background:var(--amber-light);color:var(--amber);}
+
+/* ===================================================
+   NOTIFICHE
+=================================================== */
+.notif-item{
+  display:flex;gap:11px;padding:13px 14px;
+  border-bottom:1px solid var(--border);cursor:pointer;
+}
+.notif-item.unread{background:#f0f4ff;}
+.notif-ico{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.notif-ico.blu{background:var(--blu-light);}
+.notif-ico.rosso{background:var(--rosso-light);}
+.notif-ico.verde{background:var(--verde-light);}
+.notif-body{flex:1;min-width:0;}
+.notif-title{font-size:13px;font-weight:600;color:var(--testo);margin-bottom:1px;}
+.notif-sub{font-size:11px;color:var(--testo-3);line-height:1.4;}
+.notif-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.notif-time{font-size:10px;color:var(--testo-3);}
+.unread-dot{width:7px;height:7px;border-radius:50%;background:var(--blu);}
+
+/* ===================================================
+   ADMIN PANEL
+=================================================== */
+.admin-top{
+  background:linear-gradient(135deg,#0a1a50 0%,var(--blu) 100%);
+  padding:16px 18px 18px;color:#fff;flex-shrink:0;
+}
+.admin-top h2{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.06em;}
+.admin-top p{font-size:12px;opacity:.72;margin-top:2px;}
+.admin-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.15);border-radius:20px;
+  padding:3px 10px;font-size:11px;font-weight:600;margin-top:8px;
+}
+.tabs{display:flex;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0;}
+.tab{
+  flex:1;padding:11px 6px;text-align:center;
+  font-size:12px;font-weight:600;color:var(--testo-3);
+  cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;
+}
+.tab.active{color:var(--blu);border-bottom-color:var(--blu);}
+.admin-sc{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.admin-sc::-webkit-scrollbar{display:none;}
+
+/* FORMS */
+.form-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:12px 14px;padding:16px;}
+.form-card-title{font-size:14px;font-weight:700;color:var(--testo);margin-bottom:13px;}
+.flabel{font-size:11px;font-weight:700;color:var(--testo-2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;display:block;}
+.finput,.ftextarea,.fselect{
+  width:100%;background:var(--bg);
+  border:1.5px solid var(--border);border-radius:10px;
+  padding:9px 11px;font-size:13px;color:var(--testo);
+  font-family:'DM Sans',sans-serif;outline:none;
+  transition:border-color .15s;margin-bottom:12px;
+  -webkit-appearance:none;appearance:none;
+}
+.finput:focus,.ftextarea:focus,.fselect:focus{border-color:var(--blu);background:var(--white);}
+.ftextarea{resize:none;height:75px;line-height:1.5;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.btn-primary{
+  width:100%;background:var(--blu);color:#fff;border:none;
+  border-radius:11px;padding:12px;font-size:14px;font-weight:700;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  transition:opacity .15s;-webkit-appearance:none;
+}
+.btn-primary:active{opacity:.85;}
+.btn-primary.rosso{background:var(--rosso);}
+.btn-danger{
+  background:var(--rosso-light);color:var(--rosso);border:none;
+  border-radius:7px;padding:5px 10px;font-size:11px;font-weight:700;
+  font-family:'DM Sans',sans-serif;cursor:pointer;
+}
+.admin-item{
+  background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);
+  margin:0 14px 8px;padding:12px 14px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.admin-item-ico{font-size:18px;flex-shrink:0;margin-top:2px;}
+.admin-item-body{flex:1;min-width:0;}
+.admin-item-title{font-size:13px;font-weight:700;color:var(--testo);margin-bottom:2px;}
+.admin-item-meta{font-size:11px;color:var(--testo-3);}
+
+/* ===================================================
+   LOGIN OVERLAY
+=================================================== */
+#login-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(150deg,var(--blu-dark) 0%,var(--blu) 60%,#2456c0 100%);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  z-index:100;padding:32px 24px;
+}
+.login-logo{font-family:'Bebas Neue',sans-serif;font-size:30px;color:#fff;letter-spacing:.08em;text-align:center;}
+.login-sub{font-family:'Dancing Script',cursive;font-size:20px;color:#ff9090;text-align:center;margin-bottom:28px;}
+.login-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px;width:100%;}
+.login-input{
+  width:100%;background:rgba(255,255,255,.12);
+  border:1.5px solid rgba(255,255,255,.2);border-radius:11px;
+  padding:11px 14px;font-size:14px;color:#fff;
+  font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px;
+  -webkit-appearance:none;
+}
+.login-input::placeholder{color:rgba(255,255,255,.45);}
+.login-input:focus{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.18);}
+.login-btn{
+  width:100%;background:#fff;color:var(--blu);border:none;
+  border-radius:11px;padding:13px;font-size:15px;font-weight:700;
+  font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px;
+  -webkit-appearance:none;
+}
+.login-btn:active{opacity:.9;}
+.login-hint{font-size:11px;color:rgba(255,255,255,.4);text-align:center;margin-top:10px;}
+.login-error{font-size:12px;color:#ff9090;text-align:center;margin-bottom:8px;display:none;}
+
+/* ===================================================
+   DETAIL OVERLAY
+=================================================== */
+.detail-overlay{
+  position:absolute;inset:0;background:var(--white);
+  z-index:50;display:none;flex-direction:column;overflow:hidden;
+}
+.detail-overlay.open{display:flex;animation:fadeUp .2s ease;}
+.detail-head{
+  padding:12px 16px;display:flex;align-items:center;gap:10px;
+  border-bottom:1px solid var(--border);flex-shrink:0;
+  padding-top:calc(12px + var(--safe-top));
+  background:var(--white);
+}
+.detail-back{font-size:24px;cursor:pointer;color:var(--testo-2);line-height:1;}
+.detail-head-title{font-size:14px;font-weight:700;color:var(--testo);flex:1;}
+.detail-body{flex:1;overflow-y:auto;padding:20px 16px;-webkit-overflow-scrolling:touch;}
+.detail-tag{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--blu);margin-bottom:7px;}
+.detail-title{font-size:20px;font-weight:700;color:var(--testo);line-height:1.3;margin-bottom:10px;}
+.detail-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.detail-text{font-size:14px;color:var(--testo-2);line-height:1.75;white-space:pre-line;}
+
+/* ===================================================
+   TOAST
+=================================================== */
+#toast{
+  position:absolute;
+  bottom:calc(70px + var(--safe-bottom));
+  left:50%;transform:translateX(-50%) translateY(8px);
+  background:rgba(14,22,50,.9);color:#fff;
+  padding:9px 18px;border-radius:22px;
+  font-size:13px;white-space:nowrap;
+  opacity:0;transition:all .25s;z-index:300;pointer-events:none;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  max-width:calc(100% - 40px);white-space:normal;text-align:center;
+}
+
+/* ===================================================
+   SPACERS & UTILS
+=================================================== */
+.pb-safe{height:calc(16px + var(--safe-bottom));}
+.section-lbl{
+  font-size:11px;font-weight:700;color:var(--testo-3);
+  text-transform:uppercase;letter-spacing:.06em;
+  padding:12px 14px 6px;
+}
+.divider{height:1px;background:var(--border);margin:4px 0;}
+
+/* ===================================================
+   PROFILO / SETTINGS ROWS
+=================================================== */
+.set-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:0 14px 10px;overflow:hidden;}
+.set-row{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 14px;border-bottom:1px solid var(--border);
+  cursor:pointer;
+}
+.set-row:last-child{border:none;}
+.set-ico{font-size:19px;width:28px;text-align:center;flex-shrink:0;}
+.set-lbl{flex:1;font-size:13px;color:var(--testo);}
+.set-val{font-size:12px;color:var(--testo-3);}
+.set-arr{font-size:18px;color:var(--border);}
+
+/* ===================================================
+   STATS GRID
+=================================================== */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:8px;margin:0 14px 10px;
+}
+.stat-box{
+  background:var(--white);border-radius:var(--r-sm);
+  box-shadow:var(--shadow);padding:11px;text-align:center;
+}
+.stat-num{font-size:22px;font-weight:700;}
+.stat-num.verde{color:var(--verde);}
+.stat-num.blu{color:var(--blu);}
+.stat-num.amber{color:var(--amber);}
+.stat-lbl{font-size:10px;color:var(--testo-3);font-weight:600;margin-top:1px;}
+
+/* ===================================================
+   RESPONSIVE — tablet e desktop centrati
+=================================================== */
+@media(min-width:480px){
+  body{background:#c8cddf;}
+  #app{
+    margin:0 auto;
+    border-radius:0;
+    height:100vh;
+    max-height:100vh;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== HOME ===================== -->
+  <div class="screen active" id="screen-home">
+    <div class="sc">
+      <!-- HEADER CAMPAGNA -->
+      <div class="ph blu-grad safe-top">
+        <div class="logo-row">
+          <div class="logo-bubble">🌊</div>
+          <div>
+            <div class="logo-vr">VIAREGGIO</div>
+            <div class="logo-ma">mon Amour</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:rgba(255,255,255,.65);margin-bottom:3px;">Elezioni Comunali 2026</div>
+        <div style="font-size:18px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:12px;">Insieme per una Viareggio<br>più giusta e moderna</div>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;">
+          <span class="badge" style="background:rgba(255,255,255,.15);color:#fff;font-size:11px;padding:4px 10px;">📅 Voto: 15 Giu 2026</span>
+          <span class="badge" style="background:rgba(200,40,40,.3);color:#ffb0b0;font-size:11px;padding:4px 10px;">🔴 Campagna attiva</span>
+        </div>
+      </div>
+      <div class="tri"></div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="qa-grid">
+        <div class="qa" onclick="switchScreen('notizie')">
+          <div class="qa-ico c1">📰</div>
+          <span class="qa-lbl">Notizie</span>
+        </div>
+        <div class="qa" onclick="switchScreen('eventi')">
+          <div class="qa-ico c2">🗓️</div>
+          <span class="qa-lbl">Eventi</span>
+        </div>
+        <div class="qa" onclick="switchScreen('trasparenza')">
+          <div class="qa-ico c3">📊</div>
+          <span class="qa-lbl">Trasparenza</span>
+        </div>
+        <div class="qa" onclick="switchScreen('servizi')">
+          <div class="qa-ico c4">🚌</div>
+          <span class="qa-lbl">Servizi</span>
+        </div>
+      </div>
+
+      <!-- REMINDER -->
+      <div class="infobox warn" style="margin-top:4px;">
+        <span class="infobox-icon">🔔</span>
+        <div>
+          <div class="infobox-lbl amber">Reminder</div>
+          <div class="infobox-text">Comizio in Piazza Mazzini <b>domenica 29 marzo ore 17:30</b></div>
+        </div>
+      </div>
+
+      <!-- ULTIME NOTIZIE -->
+      <div class="stitle">Ultime notizie <a onclick="switchScreen('notizie')">Tutte →</a></div>
+
+      <div class="card" onclick="openDetail('news','n1')">
+        <div class="card-body">
+          <div class="card-tag">Programma</div>
+          <div class="card-title">Piano mare: riqualificazione del Lungomare</div>
+          <div class="card-desc">Più verde, più accessibile, più sicuro: il progetto per il cuore di Viareggio.</div>
+          <div class="card-meta">📅 20 mar 2026 · <span class="badge blu">Programma</span></div>
+        </div>
+      </div>
+      <div class="card" onclick="openDetail('news','n2')">
+        <div class="card-body">
+          <div class="card-tag rosso">Campagna</div>
+          <div class="card-title">Incontro con i cittadini del quartiere Migliarina</div>
+          <div class="card-desc">80 cittadini, proposte concrete. Rivedi il resoconto dell'incontro del 18 marzo.</div>
+          <div class="card-meta">📅 18 mar 2026 · <span class="badge rosso">Incontro</span></div>
+        </div>
+      </div>
+
+      <!-- PROSSIMI EVENTI -->
+      <div class="stitle">Prossimi eventi <a onclick="switchScreen('eventi')">Tutti →</a></div>
+      <div class="ecard" onclick="openDetail('event','e1')">
+        <div class="ebox rosso"><div class="eday">29</div><div class="emon">MAR</div></div>
+        <div class="einfo">
+          <div class="etitle">Comizio — Piazza Mazzini</div>
+          <div class="emeta">📍 P.za Mazzini • ore 17:30</div>
+        </div>
+        <div class="earrow">›</div>
+      </div>
+      <div class="ecard" onclick="openDetail('event','e2')">
+        <div class="ebox blu"><div class="eday">05</div><div class="emon">APR</div></div>
+        <div class="einfo">
+          <div class="etitle">Tavola rotonda — Il futuro del porto</div>
+          <div class="emeta">📍 Camera di Commercio • ore 10:00</div>
+        </div>
+        <div class="earrow">›</div>
+      </div>
+
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni active" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')">
+        <div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div>
+        <span class="nlabel">Notifiche</span>
+      </div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== NOTIZIE ===================== -->
+  <div class="screen" id="screen-notizie">
+    <div class="ph blu-grad safe-top">
+      <div class="ph-title">Notizie</div>
+      <div class="ph-sub">Aggiornamenti dalla campagna</div>
+      <span class="ph-icon">📰</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc">
+      <div class="hrow" style="padding-top:12px;">
+        <span class="badge blu" style="cursor:pointer;padding:6px 13px;font-size:11px;">Tutte</span>
+        <span class="badge gray" style="cursor:pointer;padding:6px 13px;font-size:11px;">Programma</span>
+        <span class="badge gray" style="cursor:pointer;padding:6px 13px;font-size:11px;">Campagna</span>
+        <span class="badge gray" style="cursor:pointer;padding:6px 13px;font-size:11px;">Comune</span>
+        <span class="badge gray" style="cursor:pointer;padding:6px 13px;font-size:11px;">Avviso</span>
+      </div>
+      <div id="news-list" style="padding-top:4px;">
+        <div class="card" onclick="openDetail('news','n1')">
+          <div class="card-body">
+            <div class="card-tag">Programma</div>
+            <div class="card-title">Piano mare: riqualificazione del Lungomare</div>
+            <div class="card-desc">Più verde, più accessibile, più sicuro: il nostro progetto per il cuore di Viareggio.</div>
+            <div class="card-meta">📅 20 mar 2026 · <span class="badge blu">Programma</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="openDetail('news','n2')">
+          <div class="card-body">
+            <div class="card-tag rosso">Campagna</div>
+            <div class="card-title">Incontro con i cittadini del quartiere Migliarina</div>
+            <div class="card-desc">Ascolto diretto, proposte concrete. Rivedi il resoconto dell'incontro.</div>
+            <div class="card-meta">📅 18 mar 2026 · <span class="badge rosso">Incontro</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="openDetail('news','n3')">
+          <div class="card-body">
+            <div class="card-tag amber">Avviso</div>
+            <div class="card-title">Dal 3 agosto: carta d'identità cartacea non più valida</div>
+            <div class="card-desc">Il regolamento europeo 2025/1208 impone il rinnovo entro agosto 2026.</div>
+            <div class="card-meta">📅 15 mar 2026 · <span class="badge amber">Avviso</span></div>
+          </div>
+        </div>
+        <div class="card" onclick="openDetail('news','n4')">
+          <div class="card-body">
+            <div class="card-tag">Programma</div>
+            <div class="card-title">Scuole: il nostro piano per l'edilizia scolastica</div>
+            <div class="card-desc">Sicurezza, efficienza energetica e ambienti moderni per i ragazzi.</div>
+            <div class="card-meta">📅 10 mar 2026 · <span class="badge blu">Programma</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni active" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')"><div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div><span class="nlabel">Notifiche</span></div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== EVENTI ===================== -->
+  <div class="screen" id="screen-eventi">
+    <div class="ph rosso-grad safe-top">
+      <div class="ph-title">Eventi</div>
+      <div class="ph-sub">Calendario della campagna</div>
+      <span class="ph-icon">🗓️</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc">
+      <div class="section-lbl" style="padding-top:14px;">Prossimi</div>
+      <div id="eventi-list">
+        <div class="ecard" onclick="openDetail('event','e1')">
+          <div class="ebox rosso"><div class="eday">29</div><div class="emon">MAR</div></div>
+          <div class="einfo"><div class="etitle">Comizio — Piazza Mazzini</div><div class="emeta">📍 P.za Mazzini • ore 17:30</div><div style="margin-top:4px;"><span class="badge rosso">Comizio</span></div></div>
+          <div class="earrow">›</div>
+        </div>
+        <div class="ecard" onclick="openDetail('event','e2')">
+          <div class="ebox blu"><div class="eday">05</div><div class="emon">APR</div></div>
+          <div class="einfo"><div class="etitle">Tavola rotonda — Il futuro del porto</div><div class="emeta">📍 Camera di Commercio • ore 10:00</div><div style="margin-top:4px;"><span class="badge blu">Dibattito</span></div></div>
+          <div class="earrow">›</div>
+        </div>
+        <div class="ecard" onclick="openDetail('event','e3')">
+          <div class="ebox rosso"><div class="eday">12</div><div class="emon">APR</div></div>
+          <div class="einfo"><div class="etitle">Gazebo — Quartiere Darsena</div><div class="emeta">📍 P.za della Libertà • ore 10:00–13:00</div><div style="margin-top:4px;"><span class="badge rosso">Gazebo</span></div></div>
+          <div class="earrow">›</div>
+        </div>
+        <div class="ecard" onclick="openDetail('event','e4')">
+          <div class="ebox blu"><div class="eday">20</div><div class="emon">APR</div></div>
+          <div class="einfo"><div class="etitle">Presentazione programma completo</div><div class="emeta">📍 Teatro Politeama • ore 20:30</div><div style="margin-top:4px;"><span class="badge blu">Evento</span></div></div>
+          <div class="earrow">›</div>
+        </div>
+      </div>
+      <div class="section-lbl">Passati</div>
+      <div class="ecard" style="opacity:.55;">
+        <div class="ebox gray"><div class="eday">18</div><div class="emon">MAR</div></div>
+        <div class="einfo"><div class="etitle">Incontro Migliarina</div><div class="emeta">📍 Oratorio Don Bosco • ore 18:30</div><div style="margin-top:4px;"><span class="badge gray">Concluso</span></div></div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')"><div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div><span class="nlabel">Notifiche</span></div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== NOTIFICHE ===================== -->
+  <div class="screen" id="screen-notifiche">
+    <div class="ph blu-grad safe-top">
+      <div class="ph-title">Notifiche</div>
+      <div class="ph-sub">Aggiornamenti per te</div>
+      <span class="ph-icon">🔔</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 14px 6px;">
+        <span style="font-size:12px;font-weight:700;color:var(--testo-2);">Non lette <span style="background:var(--rosso);color:#fff;border-radius:20px;padding:1px 7px;font-size:10px;font-weight:700;">3</span></span>
+        <span style="font-size:12px;color:var(--blu);cursor:pointer;font-weight:500;">Segna tutte lette</span>
+      </div>
+      <div style="background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:0 14px 10px;overflow:hidden;">
+        <div class="notif-item unread">
+          <div class="notif-ico rosso">🔔</div>
+          <div class="notif-body"><div class="notif-title">Reminder: Comizio Piazza Mazzini</div><div class="notif-sub">Domenica 29 marzo ore 17:30 — porta amici!</div></div>
+          <div class="notif-right"><div class="notif-time">Oggi</div><div class="unread-dot"></div></div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-ico blu">📰</div>
+          <div class="notif-body"><div class="notif-title">Nuova notizia: Piano mare</div><div class="notif-sub">Pubblicato il progetto di riqualificazione del Lungomare</div></div>
+          <div class="notif-right"><div class="notif-time">Ieri</div><div class="unread-dot"></div></div>
+        </div>
+        <div class="notif-item unread">
+          <div class="notif-ico verde">📊</div>
+          <div class="notif-body"><div class="notif-title">Aggiornamento Trasparenza</div><div class="notif-sub">Nuovo impegno aggiunto al Pannello Trasparenza</div></div>
+          <div class="notif-right"><div class="notif-time">2gg fa</div><div class="unread-dot"></div></div>
+        </div>
+      </div>
+      <div class="section-lbl">Precedenti</div>
+      <div style="background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:0 14px 10px;overflow:hidden;">
+        <div class="notif-item">
+          <div class="notif-ico rosso">🗓️</div>
+          <div class="notif-body"><div class="notif-title">Nuovo evento: Camera di Commercio</div><div class="notif-sub">Tavola rotonda sul porto — 5 aprile</div></div>
+          <div class="notif-right"><div class="notif-time">5gg fa</div></div>
+        </div>
+        <div class="notif-item">
+          <div class="notif-ico blu">📰</div>
+          <div class="notif-body"><div class="notif-title">Notizia: Piano scuole</div><div class="notif-sub">Pubblicato il piano per l'edilizia scolastica</div></div>
+          <div class="notif-right"><div class="notif-time">10gg fa</div></div>
+        </div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni active" onclick="switchScreen('notifiche')"><span class="nicon">🔔</span><span class="nlabel">Notifiche</span></div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== TRASPARENZA ===================== -->
+  <div class="screen" id="screen-trasparenza">
+    <div class="ph verde-grad safe-top">
+      <div class="ph-title">Pannello Trasparenza</div>
+      <div class="ph-sub">Impegni e stato di avanzamento</div>
+      <span class="ph-icon">📊</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc" style="padding-top:12px;">
+      <div class="infobox ok">
+        <span class="infobox-icon">✅</span>
+        <div><div class="infobox-lbl verde">Trasparenza</div><div class="infobox-text">Stato reale degli impegni presi durante la campagna e, dopo l'elezione, delle delibere approvate.</div></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-num verde">3</div><div class="stat-lbl">Completati</div></div>
+        <div class="stat-box"><div class="stat-num blu">4</div><div class="stat-lbl">In corso</div></div>
+        <div class="stat-box"><div class="stat-num amber">5</div><div class="stat-lbl">Pianificati</div></div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-head"><span class="tcard-title">🌊 Mare e Ambiente</span><span class="badge verde">2/3</span></div>
+        <div class="tcard-body">
+          <div class="p-row"><span class="p-dot done"></span><span class="p-text">Riqualificazione Lungomare Nord</span><span class="p-badge done">✓ Fatto</span></div>
+          <div class="p-row"><span class="p-dot progress"></span><span class="p-text">Piste ciclabili sul lungomare</span><span class="p-badge progress">In corso</span></div>
+          <div class="p-row"><span class="p-dot pending"></span><span class="p-text">Nuovo parco urbano Darsena</span><span class="p-badge pending">Pianificato</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-head"><span class="tcard-title">🏫 Scuole</span><span class="badge blu">1/3</span></div>
+        <div class="tcard-body">
+          <div class="p-row"><span class="p-dot done"></span><span class="p-text">Messa in sicurezza Scuola Pascoli</span><span class="p-badge done">✓ Fatto</span></div>
+          <div class="p-row"><span class="p-dot progress"></span><span class="p-text">Efficienza energetica istituti superiori</span><span class="p-badge progress">In corso</span></div>
+          <div class="p-row"><span class="p-dot pending"></span><span class="p-text">Nuova mensa scolastica Migliarina</span><span class="p-badge pending">Pianificato</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-head"><span class="tcard-title">🚌 Mobilità</span><span class="badge amber">0/2</span></div>
+        <div class="tcard-body">
+          <div class="p-row"><span class="p-dot progress"></span><span class="p-text">Potenziamento TPL quartieri periferici</span><span class="p-badge progress">In corso</span></div>
+          <div class="p-row"><span class="p-dot pending"></span><span class="p-text">Parcheggi gratuiti centro storico</span><span class="p-badge pending">Pianificato</span></div>
+        </div>
+      </div>
+      <div class="tcard">
+        <div class="tcard-head"><span class="tcard-title">💼 Lavoro & Porto</span><span class="badge verde">1/2</span></div>
+        <div class="tcard-body">
+          <div class="p-row"><span class="p-dot done"></span><span class="p-text">Accordo Autorità Portuale — 80 assunzioni</span><span class="p-badge done">✓ Fatto</span></div>
+          <div class="p-row"><span class="p-dot progress"></span><span class="p-text">Piano sviluppo cantieri nautici</span><span class="p-badge progress">In corso</span></div>
+        </div>
+      </div>
+      <div class="stitle" style="padding-top:8px;">Delibere recenti</div>
+      <div class="card" onclick="showToast('Apertura documento...')">
+        <div class="card-body">
+          <div class="card-tag verde">Delibera</div>
+          <div class="card-title">Delibera CC n.12/2026 — Piano Triennale Opere Pubbliche</div>
+          <div class="card-meta">📅 15 mar 2026 · <span class="badge verde">Approvata</span></div>
+        </div>
+      </div>
+      <div class="card" onclick="showToast('Apertura documento...')">
+        <div class="card-body">
+          <div class="card-tag verde">Ordinanza</div>
+          <div class="card-title">Ordinanza n.45/2026 — Divieto circolazione lungomare</div>
+          <div class="card-meta">📅 10 mar 2026 · <span class="badge verde">Vigente</span></div>
+        </div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')"><div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div><span class="nlabel">Notifiche</span></div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== SERVIZI ===================== -->
+  <div class="screen" id="screen-servizi">
+    <div class="ph amber-grad safe-top">
+      <div class="ph-title">Servizi Pubblici</div>
+      <div class="ph-sub">Orari, tariffe e informazioni utili</div>
+      <span class="ph-icon">🚌</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc" style="padding-top:12px;">
+      <div class="stitle" style="padding-top:0;">Trasporto pubblico</div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🚌</span><span class="lbl">Autobus Urbani — CTT Nord</span></div>
+        <div class="srv-row"><span class="srv-name">Linea 1 – Stazione ↔ Lungomare</span><span class="srv-val blu">6:00–22:00</span></div>
+        <div class="srv-row"><span class="srv-name">Linea 2 – Centro ↔ Migliarina</span><span class="srv-val blu">6:30–21:30</span></div>
+        <div class="srv-row"><span class="srv-name">Linea 3 – Darsena ↔ Torre del Lago</span><span class="srv-val blu">7:00–20:00</span></div>
+        <div class="srv-row"><span class="srv-name">Biglietto corsa singola</span><span class="srv-val verde">€ 1,70</span></div>
+        <div class="srv-row"><span class="srv-name">Abbonamento mensile</span><span class="srv-val verde">€ 35,00</span></div>
+        <div class="srv-row"><span class="srv-name">Carnet 10 corse</span><span class="srv-val verde">€ 13,00</span></div>
+      </div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">♿</span><span class="lbl">Accessibilità TPL</span></div>
+        <div class="srv-row"><span class="srv-name">Bus pianale ribassabile</span><span class="srv-val verde">Tutte le linee</span></div>
+        <div class="srv-row"><span class="srv-name">Trasporto disabili (prenotazione)</span><span class="srv-val blu">0584 581400</span></div>
+        <div class="srv-row"><span class="srv-name">Servizio a chiamata anziani</span><span class="srv-val blu">800-703251</span></div>
+      </div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🚆</span><span class="lbl">Stazione Ferroviaria Viareggio</span></div>
+        <div class="srv-row"><span class="srv-name">Prima corsa (Pisa → Viareggio)</span><span class="srv-val blu">5:14</span></div>
+        <div class="srv-row"><span class="srv-name">Ultima corsa (Viareggio → Pisa)</span><span class="srv-val blu">23:22</span></div>
+        <div class="srv-row"><span class="srv-name">Frequenza</span><span class="srv-val">ogni 30 min</span></div>
+        <div class="srv-row"><span class="srv-name">Biglietto Viareggio–Pisa</span><span class="srv-val verde">€ 4,10</span></div>
+        <div class="srv-row"><span class="srv-name">Biglietto Viareggio–Firenze</span><span class="srv-val verde">€ 8,70</span></div>
+      </div>
+      <div class="stitle">Parcheggi</div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🅿️</span><span class="lbl">Zona blu — centro città</span></div>
+        <div class="srv-row"><span class="srv-name">1ª ora</span><span class="srv-val verde">€ 1,00</span></div>
+        <div class="srv-row"><span class="srv-name">Ora successiva</span><span class="srv-val verde">€ 1,50</span></div>
+        <div class="srv-row"><span class="srv-name">Domenica e festivi</span><span class="srv-val verde">Gratuita</span></div>
+        <div class="srv-row"><span class="srv-name">Orari pagamento</span><span class="srv-val">8:00–20:00</span></div>
+      </div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🟢</span><span class="lbl">Parcheggi gratuiti</span></div>
+        <div class="srv-row"><span class="srv-name">Stadio dei Pini (Via Magenta)</span><span class="srv-val verde">Gratuito</span></div>
+        <div class="srv-row"><span class="srv-name">Via Fratti (zona Darsena)</span><span class="srv-val verde">Gratuito</span></div>
+        <div class="srv-row"><span class="srv-name">Capienza totale</span><span class="srv-val">~600 posti</span></div>
+      </div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🌊</span><span class="lbl">Parcheggio Lungomare (stagionale)</span></div>
+        <div class="srv-row"><span class="srv-name">Tariffa oraria (estate)</span><span class="srv-val">€ 2,00/h</span></div>
+        <div class="srv-row"><span class="srv-name">Massimo giornaliero</span><span class="srv-val">€ 12,00</span></div>
+        <div class="srv-row"><span class="srv-name">Abbonamento mensile estivo</span><span class="srv-val verde">€ 60,00</span></div>
+        <div class="srv-row"><span class="srv-name">Periodo attivo</span><span class="srv-val">1 giu – 30 set</span></div>
+      </div>
+      <div class="stitle">Taxi & Mobilità alternativa</div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🚕</span><span class="lbl">Radio Taxi Viareggio</span></div>
+        <div class="srv-row"><span class="srv-name">Numero prenotazione</span><span class="srv-val blu">0584 44444</span></div>
+        <div class="srv-row"><span class="srv-name">Scatto alla partenza</span><span class="srv-val">€ 3,50</span></div>
+        <div class="srv-row"><span class="srv-name">Tariffa al km</span><span class="srv-val">€ 1,40</span></div>
+        <div class="srv-row"><span class="srv-name">Notturno (22:00–6:00)</span><span class="srv-val">+ 30%</span></div>
+      </div>
+      <div class="srv-section">
+        <div class="srv-head"><span class="ico">🚲</span><span class="lbl">Bike sharing — ViaBici</span></div>
+        <div class="srv-row"><span class="srv-name">Stazioni in città</span><span class="srv-val">12 punti</span></div>
+        <div class="srv-row"><span class="srv-name">Prime 30 minuti</span><span class="srv-val verde">Gratuiti</span></div>
+        <div class="srv-row"><span class="srv-name">Oltre 30 min</span><span class="srv-val">€ 0,50/15 min</span></div>
+        <div class="srv-row"><span class="srv-name">E-bike disponibili</span><span class="srv-val verde">Sì</span></div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')"><div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div><span class="nlabel">Notifiche</span></div>
+      <div class="ni active" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== PROFILO ===================== -->
+  <div class="screen" id="screen-profilo">
+    <div class="ph blu-grad safe-top">
+      <div class="ph-title">Profilo</div>
+      <div class="ph-sub">Il tuo account</div>
+      <span class="ph-icon">👤</span>
+    </div>
+    <div class="tri"></div>
+    <div class="sc" style="padding-top:12px;">
+      <div style="display:flex;align-items:center;gap:13px;background:var(--white);border-radius:var(--r);box-shadow:var(--shadow);margin:0 14px 12px;padding:15px;">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--blu-light);display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid var(--blu);flex-shrink:0;">👤</div>
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--testo);">Marco Bianchi</div>
+          <div style="font-size:12px;color:var(--testo-3);">Sostenitore della campagna</div>
+          <div style="margin-top:5px;"><span class="badge blu">Utente registrato</span></div>
+        </div>
+      </div>
+      <div class="set-card">
+        <div class="set-row" onclick="showToast('Impostazioni notifiche')">
+          <span class="set-ico">🔔</span><span class="set-lbl">Notifiche push</span>
+          <span style="background:var(--verde-light);color:var(--verde);font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;">Attive</span>
+        </div>
+        <div class="set-row" onclick="showToast('Impostazioni lingua')">
+          <span class="set-ico">🌍</span><span class="set-lbl">Lingua</span><span class="set-val">Italiano</span>
+        </div>
+        <div class="set-row" onclick="switchScreen('trasparenza')">
+          <span class="set-ico">📊</span><span class="set-lbl">Pannello Trasparenza</span><span class="set-arr">›</span>
+        </div>
+        <div class="set-row" onclick="switchScreen('servizi')">
+          <span class="set-ico">🚌</span><span class="set-lbl">Servizi pubblici</span><span class="set-arr">›</span>
+        </div>
+        <div class="set-row" onclick="showAdminLogin()">
+          <span class="set-ico">🔐</span>
+          <span class="set-lbl" style="color:var(--rosso);font-weight:600;">Accesso amministratore</span>
+          <span style="color:var(--rosso);font-size:18px;">›</span>
+        </div>
+      </div>
+      <!-- FOOTER LOGO -->
+      <div style="margin:4px 14px 0;border-radius:var(--r);overflow:hidden;">
+        <div style="background:var(--blu);padding:13px 16px;display:flex;align-items:center;gap:11px;">
+          <span style="font-size:20px;">🌊</span>
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:17px;color:#fff;letter-spacing:.06em;">VIAREGGIO</div>
+            <div style="font-family:'Dancing Script',cursive;font-size:13px;color:#ff9090;">mon Amour</div>
+          </div>
+          <div style="margin-left:auto;color:rgba(255,255,255,.4);font-size:10px;">v2.0</div>
+        </div>
+        <div class="tri"></div>
+      </div>
+      <div class="pb-safe"></div>
+    </div>
+    <div class="bnav">
+      <div class="ni" onclick="switchScreen('home')"><span class="nicon">🏠</span><span class="nlabel">Home</span></div>
+      <div class="ni" onclick="switchScreen('notizie')"><span class="nicon">📰</span><span class="nlabel">Notizie</span></div>
+      <div class="ni" onclick="switchScreen('notifiche')"><div class="ni-wrap"><span class="nicon">🔔</span><span class="notif-dot"></span></div><span class="nlabel">Notifiche</span></div>
+      <div class="ni" onclick="switchScreen('servizi')"><span class="nicon">🚌</span><span class="nlabel">Servizi</span></div>
+      <div class="ni active" onclick="switchScreen('profilo')"><span class="nicon">👤</span><span class="nlabel">Profilo</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== ADMIN ===================== -->
+  <div class="admin-screen" id="screen-admin">
+    <div class="admin-top safe-top">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div><h2>Pannello Admin</h2><p>Gestione contenuti app</p></div>
+        <button onclick="adminLogout()" style="background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:9px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;">Esci ›</button>
+      </div>
+      <div class="admin-badge">🔐 Amministratore</div>
+    </div>
+    <div class="tri"></div>
+    <div class="tabs">
+      <div class="tab active" onclick="switchAdminTab('events',this)">🗓️ Eventi</div>
+      <div class="tab" onclick="switchAdminTab('news',this)">📰 Notizie</div>
+      <div class="tab" onclick="switchAdminTab('push',this)">🔔 Push</div>
+    </div>
+    <div class="admin-sc">
+
+      <!-- TAB EVENTI -->
+      <div id="atab-events">
+        <div class="form-card">
+          <div class="form-card-title">➕ Nuovo evento</div>
+          <label class="flabel">Titolo *</label>
+          <input class="finput" type="text" placeholder="Es: Comizio in Piazza Mazzini" id="ev-title">
+          <label class="flabel">Descrizione breve</label>
+          <input class="finput" type="text" placeholder="Teaser breve" id="ev-short">
+          <label class="flabel">Descrizione lunga</label>
+          <textarea class="ftextarea" placeholder="Testo completo dell'evento..." id="ev-long"></textarea>
+          <div class="frow">
+            <div><label class="flabel">Data *</label><input class="finput" type="date" id="ev-date" style="margin-bottom:0;"></div>
+            <div><label class="flabel">Ora *</label><input class="finput" type="time" id="ev-time" style="margin-bottom:0;"></div>
+          </div>
+          <div style="height:12px;"></div>
+          <label class="flabel">Luogo *</label>
+          <input class="finput" type="text" placeholder="Es: Piazza Mazzini, Viareggio" id="ev-place">
+          <label class="flabel">Categoria</label>
+          <select class="fselect" id="ev-cat"><option>Comizio</option><option>Gazebo</option><option>Dibattito</option><option>Incontro cittadini</option><option>Evento culturale</option></select>
+          <button class="btn-primary rosso" onclick="addEvent()">✓ Pubblica evento</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 14px 8px;">
+          <span style="font-size:13px;font-weight:700;color:var(--testo);">Pubblicati</span>
+          <span class="badge rosso" id="event-count">4</span>
+        </div>
+        <div id="admin-events-list">
+          <div class="admin-item"><span class="admin-item-ico">🗓️</span><div class="admin-item-body"><div class="admin-item-title">Comizio — Piazza Mazzini</div><div class="admin-item-meta">📅 29 mar • 17:30 • P.za Mazzini</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">🗓️</span><div class="admin-item-body"><div class="admin-item-title">Tavola rotonda — Porto</div><div class="admin-item-meta">📅 05 apr • 10:00 • Camera di Commercio</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">🗓️</span><div class="admin-item-body"><div class="admin-item-title">Gazebo — Darsena</div><div class="admin-item-meta">📅 12 apr • 10:00 • P.za della Libertà</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">🗓️</span><div class="admin-item-body"><div class="admin-item-title">Presentazione programma</div><div class="admin-item-meta">📅 20 apr • 20:30 • Teatro Politeama</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+        </div>
+        <div class="pb-safe"></div>
+      </div>
+
+      <!-- TAB NOTIZIE -->
+      <div id="atab-news" style="display:none;">
+        <div class="form-card">
+          <div class="form-card-title">➕ Nuova notizia</div>
+          <label class="flabel">Titolo *</label>
+          <input class="finput" type="text" placeholder="Es: Il nostro piano per le scuole" id="news-title">
+          <label class="flabel">Descrizione breve (teaser)</label>
+          <input class="finput" type="text" placeholder="Max 120 caratteri" id="news-short">
+          <label class="flabel">Contenuto completo</label>
+          <textarea class="ftextarea" placeholder="Testo completo della notizia..." id="news-long" style="height:90px;"></textarea>
+          <label class="flabel">Categoria</label>
+          <select class="fselect" id="news-cat"><option>Programma</option><option>Campagna</option><option>Comune</option><option>Avviso</option></select>
+          <label class="flabel">Notifica push</label>
+          <select class="fselect" id="news-push"><option>Sì — invia notifica</option><option>No — pubblica solo</option></select>
+          <button class="btn-primary" onclick="addNews()">✓ Pubblica notizia</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 14px 8px;">
+          <span style="font-size:13px;font-weight:700;color:var(--testo);">Pubblicate</span>
+          <span class="badge blu" id="news-count">4</span>
+        </div>
+        <div id="admin-news-list">
+          <div class="admin-item"><span class="admin-item-ico">📰</span><div class="admin-item-body"><div class="admin-item-title">Piano mare: riqualificazione Lungomare</div><div class="admin-item-meta">📅 20 mar · Programma</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">📰</span><div class="admin-item-body"><div class="admin-item-title">Incontro quartiere Migliarina</div><div class="admin-item-meta">📅 18 mar · Campagna</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">📰</span><div class="admin-item-body"><div class="admin-item-title">Carta d'identità: scadenza agosto 2026</div><div class="admin-item-meta">📅 15 mar · Avviso</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+          <div class="admin-item"><span class="admin-item-ico">📰</span><div class="admin-item-body"><div class="admin-item-title">Scuole: piano edilizia scolastica</div><div class="admin-item-meta">📅 10 mar · Programma</div></div><button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button></div>
+        </div>
+        <div class="pb-safe"></div>
+      </div>
+
+      <!-- TAB PUSH -->
+      <div id="atab-push" style="display:none;">
+        <div class="form-card">
+          <div class="form-card-title">📣 Invia notifica push</div>
+          <label class="flabel">Titolo *</label>
+          <input class="finput" type="text" placeholder="Es: Mancano 3 giorni al voto!" id="push-title">
+          <label class="flabel">Messaggio *</label>
+          <textarea class="ftextarea" placeholder="Testo della notifica..." id="push-body" style="height:68px;"></textarea>
+          <label class="flabel">Destinatari</label>
+          <select class="fselect"><option>Tutti gli utenti (423)</option><option>Quartiere Centro (128)</option><option>Quartiere Migliarina (87)</option><option>Quartiere Darsena (65)</option><option>Nuovi iscritti (34)</option></select>
+          <div class="infobox warn" style="margin:0 0 12px;">
+            <span class="infobox-icon">⚠️</span>
+            <div class="infobox-text">Le notifiche vengono inviate immediatamente. Non è possibile annullare l'invio.</div>
+          </div>
+          <button class="btn-primary rosso" onclick="sendPush()">🔔 Invia notifica ora</button>
+        </div>
+        <div class="section-lbl">Inviate di recente</div>
+        <div class="admin-item"><span class="admin-item-ico">🔔</span><div class="admin-item-body"><div class="admin-item-title">Reminder: Comizio Piazza Mazzini</div><div class="admin-item-meta">Oggi • 423 utenti • ✓ Consegnata</div></div></div>
+        <div class="admin-item"><span class="admin-item-ico">📰</span><div class="admin-item-body"><div class="admin-item-title">Nuova notizia: Piano mare</div><div class="admin-item-meta">Ieri • 423 utenti • ✓ Consegnata</div></div></div>
+        <div class="pb-safe"></div>
+      </div>
+
+    </div><!-- fine admin-sc -->
+  </div><!-- fine admin-screen -->
+
+  <!-- ===================== LOGIN OVERLAY ===================== -->
+  <div id="login-overlay">
+    <div style="font-size:26px;margin-bottom:6px;">🔐</div>
+    <div class="login-logo">VIAREGGIO</div>
+    <div class="login-sub">mon Amour</div>
+    <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:22px;text-align:center;">Area riservata amministratori</div>
+    <div id="login-error" class="login-error">Credenziali non valide. Riprova.</div>
+    <label class="login-lbl">Email</label>
+    <input class="login-input" type="email" id="login-email" placeholder="admin@viareggio.it" autocomplete="off">
+    <label class="login-lbl">Password</label>
+    <input class="login-input" type="password" id="login-pwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Accedi al pannello →</button>
+    <div class="login-hint">Demo: admin@viareggio.it / admin123</div>
+    <div style="margin-top:18px;cursor:pointer;font-size:13px;color:rgba(255,255,255,.45);" onclick="hideAdminLogin()">← Torna all'app</div>
+  </div>
+
+  <!-- ===================== DETAIL OVERLAY ===================== -->
+  <div class="detail-overlay" id="detail-overlay">
+    <div class="detail-head">
+      <span class="detail-back" onclick="closeDetail()">‹</span>
+      <span class="detail-head-title" id="detail-hdr"></span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-tag" id="detail-tag"></div>
+      <div class="detail-title" id="detail-title"></div>
+      <div class="detail-meta" id="detail-meta"></div>
+      <div class="detail-text" id="detail-text"></div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+</div><!-- fine #app -->
+
+<script>
+// ── NAVIGATION ──────────────────────────────────────────
+const ALL_SCREENS = ['home','notizie','eventi','notifiche','trasparenza','servizi','profilo','admin'];
+function switchScreen(name) {
+  ALL_SCREENS.forEach(s => {
+    const el = document.getElementById('screen-'+s);
+    if(el) el.classList.remove('active');
+  });
+  const t = document.getElementById('screen-'+name);
+  if(t) t.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ── TOAST ────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{
+    t.style.opacity = '0';
+    t.style.transform = 'translateX(-50%) translateY(8px)';
+  }, 2800);
+}
+
+// ── LOGIN ────────────────────────────────────────────────
+function showAdminLogin() {
+  const ov = document.getElementById('login-overlay');
+  ov.style.display = 'flex';
+  document.getElementById('login-error').style.display = 'none';
+  document.getElementById('login-email').value = '';
+  document.getElementById('login-pwd').value = '';
+  setTimeout(()=>document.getElementById('login-email').focus(), 300);
+}
+function hideAdminLogin() {
+  document.getElementById('login-overlay').style.display = 'none';
+}
+function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const pwd = document.getElementById('login-pwd').value;
+  if(email === 'admin@viareggio.it' && pwd === 'admin123') {
+    hideAdminLogin();
+    switchScreen('admin');
+    showToast('✅ Benvenuto, amministratore');
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+function adminLogout() {
+  switchScreen('profilo');
+  showToast('Uscito dall\'area admin');
+}
+
+// ── ADMIN TABS ───────────────────────────────────────────
+function switchAdminTab(name, el) {
+  ['events','news','push'].forEach(t => {
+    document.getElementById('atab-'+t).style.display = 'none';
+  });
+  document.getElementById('atab-'+name).style.display = 'block';
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+// ── ADD EVENT ────────────────────────────────────────────
+let eventCount = 4;
+function addEvent() {
+  const title = document.getElementById('ev-title').value.trim();
+  const place = document.getElementById('ev-place').value.trim();
+  const date  = document.getElementById('ev-date').value;
+  const time  = document.getElementById('ev-time').value;
+  if(!title || !place || !date) { showToast('⚠️ Compila i campi obbligatori'); return; }
+  eventCount++;
+  document.getElementById('event-count').textContent = eventCount;
+  const dateStr = new Date(date).toLocaleDateString('it-IT',{day:'2-digit',month:'short',year:'numeric'});
+  // Admin list
+  const adminEl = document.createElement('div');
+  adminEl.className = 'admin-item';
+  adminEl.innerHTML = `<span class="admin-item-ico">🗓️</span>
+    <div class="admin-item-body">
+      <div class="admin-item-title">${title}</div>
+      <div class="admin-item-meta">📅 ${dateStr}${time?' • '+time:''} • ${place}</div>
+    </div>
+    <button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button>`;
+  document.getElementById('admin-events-list').prepend(adminEl);
+  // Public list
+  const d = new Date(date);
+  const months = ['GEN','FEB','MAR','APR','MAG','GIU','LUG','AGO','SET','OTT','NOV','DIC'];
+  const pubEl = document.createElement('div');
+  pubEl.className = 'ecard';
+  pubEl.innerHTML = `<div class="ebox rosso"><div class="eday">${String(d.getDate()).padStart(2,'0')}</div><div class="emon">${months[d.getMonth()]}</div></div>
+    <div class="einfo"><div class="etitle">${title}</div><div class="emeta">📍 ${place}${time?' • ore '+time:''}</div></div>
+    <div class="earrow">›</div>`;
+  const list = document.getElementById('eventi-list');
+  list.insertBefore(pubEl, list.firstChild);
+  ['ev-title','ev-short','ev-long','ev-date','ev-time','ev-place'].forEach(id => document.getElementById(id).value = '');
+  showToast('✅ Evento pubblicato!');
+}
+
+// ── ADD NEWS ─────────────────────────────────────────────
+let newsCount = 4;
+function addNews() {
+  const title = document.getElementById('news-title').value.trim();
+  const short = document.getElementById('news-short').value.trim();
+  const cat   = document.getElementById('news-cat').value;
+  const push  = document.getElementById('news-push').value.includes('Sì');
+  if(!title) { showToast('⚠️ Inserisci un titolo'); return; }
+  newsCount++;
+  document.getElementById('news-count').textContent = newsCount;
+  // Admin
+  const adminEl = document.createElement('div');
+  adminEl.className = 'admin-item';
+  adminEl.innerHTML = `<span class="admin-item-ico">📰</span>
+    <div class="admin-item-body">
+      <div class="admin-item-title">${title}</div>
+      <div class="admin-item-meta">📅 Oggi · ${cat}</div>
+    </div>
+    <button class="btn-danger" onclick="showToast('Eliminato');this.closest('.admin-item').remove()">✕</button>`;
+  document.getElementById('admin-news-list').prepend(adminEl);
+  // Public
+  const pubEl = document.createElement('div');
+  pubEl.className = 'card';
+  pubEl.innerHTML = `<div class="card-body">
+    <div class="card-tag">${cat}</div>
+    <div class="card-title">${title}</div>
+    ${short?`<div class="card-desc">${short}</div>`:''}
+    <div class="card-meta">📅 Oggi · <span class="badge blu">${cat}</span></div>
+  </div>`;
+  document.getElementById('news-list').prepend(pubEl);
+  ['news-title','news-short','news-long'].forEach(id => document.getElementById(id).value = '');
+  showToast(push ? '✅ Notizia pubblicata e notifica inviata!' : '✅ Notizia pubblicata');
+}
+
+// ── PUSH ─────────────────────────────────────────────────
+function sendPush() {
+  const t = document.getElementById('push-title').value.trim();
+  const b = document.getElementById('push-body').value.trim();
+  if(!t||!b) { showToast('⚠️ Compila titolo e messaggio'); return; }
+  document.getElementById('push-title').value = '';
+  document.getElementById('push-body').value = '';
+  showToast('🔔 Notifica inviata a tutti gli utenti!');
+}
+
+// ── DETAIL OVERLAY ───────────────────────────────────────
+const DETAIL_DATA = {
+  news: {
+    n1:{tag:'Programma',title:'Piano mare: riqualificazione del Lungomare',meta:['📅 20 marzo 2026','🏷️ Programma'],text:'Il nostro piano prevede la completa riqualificazione del Lungomare di Viareggio. Più verde, più accessibile, più sicuro.\n\nNel dettaglio:\n• Nuova pavimentazione antiscivolo e accessibile ai disabili\n• Piste ciclabili protette per tutto il lungomare\n• 40 nuovi alberi e 200 nuove piante\n• Illuminazione a LED a basso consumo\n• Nuovi spazi giochi per bambini\n• Wi-Fi gratuito nelle aree pubbliche\n\nL\'intervento è finanziato con fondi PNRR per un totale di €4,2 milioni.'},
+    n2:{tag:'Campagna',title:'Incontro con i cittadini del quartiere Migliarina',meta:['📅 18 marzo 2026','📍 Oratorio Don Bosco'],text:'Un incontro partecipato e ricco di proposte. Oltre 80 cittadini hanno partecipato all\'incontro di ascolto nel quartiere Migliarina.\n\nI temi principali emersi:\n• Necessità di nuovi marciapiedi su Via Aurelia\n• Potenziamento della linea bus n.2\n• Richiesta di un nuovo parco giochi\n• Sicurezza stradale davanti alle scuole\n\nTutte le proposte verranno inserite nel programma elettorale.'},
+    n3:{tag:'Avviso',title:"Dal 3 agosto 2026: carta d'identità cartacea non più valida",meta:['📅 15 marzo 2026','⚠️ Avviso importante'],text:"Il Regolamento Europeo 2025/1208 stabilisce che dal 3 agosto 2026 la carta d'identità cartacea non sarà più valida indipendentemente dalla data di scadenza.\n\nCosa fare:\n• Prenotare online su servizi.comune.viareggio.lu.it\n• Portare una foto tessera e il vecchio documento\n• Il costo è di €22,50\n\nSportello anagrafe: Lun-Ven 8:30-12:30, Lun e Mer anche 15:00-17:00."},
+    n4:{tag:'Programma',title:"Scuole: il nostro piano per l'edilizia scolastica",meta:['📅 10 marzo 2026'],text:'La sicurezza e la qualità degli spazi educativi è priorità assoluta.\n\nIl piano prevede:\n• Messa in sicurezza di tutti gli edifici scolastici entro il 2027\n• Cappotti termici ed efficienza energetica (risparmio: 40%)\n• Nuova mensa per la scuola primaria Migliarina\n• Ambienti digitali e laboratori per le scuole secondarie\n\nBudget previsto: €6,8 milioni (di cui €4M da fondi PNRR).'}
+  },
+  event: {
+    e1:{tag:'Comizio',title:'Comizio — Piazza Mazzini',meta:['📅 Domenica 29 marzo 2026','🕐 Ore 17:30','📍 Piazza Mazzini, Viareggio','🎟️ Ingresso libero'],text:'Il grande comizio di presentazione della candidatura!\n\nPorta amici, parenti e vicini di casa. Insieme possiamo fare la differenza.\n\nProgramma della serata:\n• 17:30 — Apertura con musica dal vivo\n• 18:00 — Interventi dei sostenitori\n• 18:30 — Discorso della candidata\n• 19:30 — Brindisi e aperitivo popolare\n\nParcheggio consigliato: Stadio dei Pini (gratuito, 10 min a piedi).'},
+    e2:{tag:'Dibattito',title:'Tavola rotonda — Il futuro del porto di Viareggio',meta:['📅 Domenica 5 aprile 2026','🕐 Ore 10:00','📍 Camera di Commercio'],text:'Una mattinata di confronto sul futuro del porto.\n\nRelatori invitati:\n• Autorità Portuale Toscana\n• Associazione Cantieristica Nautica\n• Rappresentanti delle categorie lavorative\n\nIl porto di Viareggio è il secondo polo della cantieristica nautica italiana. Il nostro programma prevede €12 milioni di investimenti e 200 nuovi posti di lavoro.'},
+    e3:{tag:'Gazebo',title:'Gazebo — Quartiere Darsena',meta:['📅 Domenica 12 aprile 2026','🕐 Ore 10:00–13:00','📍 Piazza della Libertà'],text:'Vieni a trovarci al gazebo!\n\nSaremo presenti per ascoltare le tue proposte e presentare il programma per questo quartiere.\n\nCosa troverai:\n• Materiale informativo\n• Possibilità di iscriverti come sostenitore\n• Gadget della campagna\n• Caffè e conversazione'},
+    e4:{tag:'Evento',title:'Presentazione del programma completo',meta:['📅 Lunedì 20 aprile 2026','🕐 Ore 20:30','📍 Teatro Politeama','🎟️ Prenotazione obbligatoria'],text:'La serata più importante della campagna.\n\nPresenteremo il programma per i prossimi 5 anni: 12 capitoli, 48 proposte concrete.\n\n1. Mare e ambiente\n2. Scuole e giovani\n3. Lavoro e porto\n4. Mobilità e trasporti\n5. Cultura e turismo\n6. Sicurezza\n7. Welfare e anziani\n8. Sport\n9. Digitale e innovazione\n10. Commercio\n11. Bilancio e trasparenza\n12. Partecipazione civica\n\nPrenotazione: WhatsApp al 333-1234567.'}
+  }
+};
+
+function openDetail(type, id) {
+  const d = DETAIL_DATA[type]?.[id];
+  if(!d) return;
+  document.getElementById('detail-tag').textContent = d.tag || '';
+  document.getElementById('detail-hdr').textContent = d.tag || 'Dettaglio';
+  document.getElementById('detail-title').textContent = d.title || '';
+  document.getElementById('detail-meta').innerHTML = (d.meta||[]).map(m=>`<span class="badge blu">${m}</span>`).join('');
+  document.getElementById('detail-text').textContent = d.text || '';
+  document.getElementById('detail-overlay').classList.add('open');
+}
+function closeDetail() {
+  document.getElementById('detail-overlay').classList.remove('open');
+}
+
+// ── BACK GESTURE ─────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') {
+    if(document.getElementById('detail-overlay').classList.contains('open')) closeDetail();
+    else if(document.getElementById('login-overlay').style.display === 'flex') hideAdminLogin();
+  }
+});
+
+// ── SERVICE WORKER (PWA) ─────────────────────────────────
+if('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(() => console.log('SW registrato'))
+      .catch(e => console.log('SW errore:', e));
+  });
+}
+</script>
+</body>
+</html>

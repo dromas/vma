@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#0d2260"/>
+  <rect x="0" y="60" width="64" height="72" fill="#1A3F8F"/>
+  <rect x="64" y="60" width="64" height="72" fill="#ffffff"/>
+  <rect x="128" y="60" width="64" height="72" fill="#C8282A"/>
+  <text x="96" y="148" font-family="Arial,sans-serif" font-size="22"
+        font-weight="bold" fill="white" text-anchor="middle">VmA</text>
+</svg>
